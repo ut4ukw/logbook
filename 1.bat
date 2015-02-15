@@ -1,1 +1,0 @@
-sweep gsar.exe -o -s\melnichenko\' -r\melnichenko.ADVENTIS\ *.dproj

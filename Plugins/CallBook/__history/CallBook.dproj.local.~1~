@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>2011.02.24 16:31:54.985.pas,C:\Users\vlad_mel.CARAVAN\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\CallBook\Unit1.pas=C:\Users\vlad_mel.CARAVAN\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\CallBook\udmCallBook.pas</Transaction>
-    <Transaction>2011.02.24 16:31:54.985.dfm,C:\Users\vlad_mel.CARAVAN\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\CallBook\Unit1.dfm=C:\Users\vlad_mel.CARAVAN\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\CallBook\udmCallBook.dfm</Transaction>
-  </Transactions>
-</BorlandProject>

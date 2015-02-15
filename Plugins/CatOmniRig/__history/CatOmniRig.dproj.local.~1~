@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>2010.12.27 17:55:40.930.pas,C:\Users\vlad_mel.CARAVAN\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\CatOmniRig\uCatOmniRigForm.pas=</Transaction>
-    <Transaction>2010.12.27 17:55:40.930.dfm,C:\Users\vlad_mel.CARAVAN\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\CatOmniRig\uCatOmniRigForm.dfm=</Transaction>
-    <Transaction>2011.01.02 12:10:56.271.pas,C:\Users\Vlad\Documents\RAD Studio\Projects\ut4ukw\LogBook\Plugins\CatOmniRig\Unit1.pas=C:\Users\Vlad\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\CatOmniRig\udmCatOmniRig.pas</Transaction>
-    <Transaction>2011.01.02 12:10:56.271.dfm,C:\Users\Vlad\Documents\RAD Studio\Projects\ut4ukw\LogBook\Plugins\CatOmniRig\Unit1.dfm=C:\Users\Vlad\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\CatOmniRig\udmCatOmniRig.dfm</Transaction>
-  </Transactions>
-</BorlandProject>
