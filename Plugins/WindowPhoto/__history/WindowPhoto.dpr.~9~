@@ -1,0 +1,16 @@
+library WindowPhoto;
+
+
+uses
+  ShareMem,
+  uWindowPhoto in 'uWindowPhoto.pas',
+  uWindowPhotoForm in 'uWindowPhotoForm.pas' {WindowPhotoForm};
+
+{$R *.res}
+
+exports
+Initialize,
+DeInitialize,
+CoreCommand;
+
+end.

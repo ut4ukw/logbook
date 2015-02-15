@@ -1,0 +1,27 @@
+unit uWindowSoundRecorderSettingsFrame;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, 
+  Dialogs, JvComponentBase, JvFormPlacement, StdCtrls, ACS_Classes, ACS_DXAudio;
+
+type
+  TWindowSoundRecorderSettingsFrame = class(TFrame)
+    FormStorage: TJvFormStorage;
+    AudioIn: TDXAudioIn;
+    WindowSoundRecorder_gbDeviceSettings: TGroupBox;
+    cbSoundRecorderDevice: TComboBox;
+    WindowSoundRecorder_lbDevice: TLabel;
+    WindowSoundRecorder_gbMode: TGroupBox;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+end.

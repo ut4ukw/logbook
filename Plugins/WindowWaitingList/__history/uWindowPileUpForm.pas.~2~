@@ -1,0 +1,24 @@
+unit uWindowPileUpForm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  JvThread, ShellApi, JvExControls, StdCtrls, uWindowPluginForm; 
+
+type
+  TWindowPileUpForm = class(TWindowPluginForm)
+  private
+  public
+  end;
+
+var
+  WindowPileUpForm: TWindowPileUpForm;
+
+implementation
+
+uses uWindowPileUp;
+{$R *.dfm}
+
+
+end.

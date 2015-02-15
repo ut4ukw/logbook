@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+  html { height: 100% }
+  body { height: 100%; margin: 0px; padding: 0px }
+  #map_canvas { height: 100% }
+</style>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAzr2EBOXUKnm_jVnk0OJI7xSosDVG8KKPE1-m51RBrvYughuyMxQ-i1QfUnH94QxWIa6N4U6MouMmBA" type="text/javascript"></script> 
+<script type="text/javascript">
+
+
+var map;
+var markers = new Array();
+var homeMarker;
+var points = [];
+var polyline;
+
+/*
+function turnDaylight(type) {
+  var daylight = new daylightMap.daylightLayer();
+  
+ daylight.addToMap(map);
+ daylight._defaultMapOpacity = 0.1;
+ daylight._defaultSatelliteOpacity = 0.5;
+}
+*/
+
+function initialize(x,y) {
+   if (GBrowserIsCompatible()) {
+        map = new GMap2(document.getElementById("map_canvas"));
+		
+        
+  /*      var daylight = new daylightLayer();
+		daylightMap._defaultSatelliteOpacity = 0.4;
+        daylight.addToMap(map);
+		daylight.addToMapType(G_PHYSICAL_MAP);*/
+		
+		map.setCenter(new GLatLng(x, y), 4);
+        map.setMapType(G_HYBRID_MAP);
+        map.setMapType(G_NORMAL_MAP);
+        map.setUIToDefault();
+        
+		setMarkerHome(x, y);
+	//	addMarkerMap(20,20,'red','uuu');
+	//	addMarkerMap(30,10,'red','uuu');
+	//	drawDistance('sss');
+	//	setMarker(50,50,'red');
+		//clear();
+   }
+}	
+
+
+function setMarkerHome(x,y) {
+     var homeIcon = new GIcon(G_DEFAULT_ICON); 
+     homeIcon.image = 'yellow-marker.png';
+	 homeIcon.shadowSize=new GSize(0,0);
+     homeIcon.iconAnchor=new GPoint(16,32);
+	 homeIcon.iconSize = new GSize(32, 32); 
+     var markerOptions = { icon:homeIcon }; 	 
+	 homeMarker = new GMarker(new GLatLng(x,y), markerOptions); 
+	 map.addOverlay(homeMarker); 
+//	 var markerOptions = { }; 	 
+//	 var marker1 = new GMarker(new GLatLng(x,y), markerOptions); 
+	 //map.addOverlay(marker1); 
+   	 //map.setZoom(4);
+	 map.setCenter(new GLatLng(x,y),4);
+	//map.setCenter(pos);
+}
+
+function addMarkerMap(x,y,color,callsign) {
+     var stationIcon = new GIcon(G_DEFAULT_ICON); 
+     stationIcon.image = color+'-marker-small.png';
+	 stationIcon.iconSize = new GSize(12, 20);
+	 stationIcon.shadowSize=new GSize(0,0);
+     stationIcon.iconAnchor = new GPoint(6, 20);	 
+	 var markerOptions = { icon:stationIcon }; 	 
+	 var marker = new GMarker(new GLatLng(x,y), markerOptions); 
+	 map.addOverlay(marker); 
+	 //markerOptions = {}; 	 
+	 //var marker1 = new GMarker(new GLatLng(x,y), markerOptions); 
+	 //map.addOverlay(marker1); 
+  	 markers.push(marker);
+}
+
+function setMarker(x,y,color) {
+
+     var markerIcon = new GIcon(G_DEFAULT_ICON); 
+     markerIcon.image = color+'-marker.png';
+	 markerIcon.shadowSize=new GSize(0,0);
+    // markerIcon.iconAnchor=new GPoint(14,32);
+	 //markerIcon.iconSize = new GSize(32, 32); 
+     var markerOptions = { icon:markerIcon }; 	 
+	 var stMarker = new GMarker(new GLatLng(x,y), markerOptions); 
+	 map.addOverlay(stMarker); 
+    
+	markers.push(stMarker);
+	drawDistance(2);
+}
+
+
+
+function drawDistance(stroke) {
+ /*var bounds = map.getBounds();
+ var fPoints = new Array();
+ var p1 = markerHome.position;
+ bounds.extend(p1);
+ 
+  for(var i=0; i<markers.length; i++){
+   fPoints.push(p1);
+   bounds.extend(markers[i].position);
+   fPoints.push(markers[i].position);
+   routes.push(fPoints);
+ }  
+		
+  polyDistance = new google.maps.Polyline({
+    path: routes,
+    strokeColor: "#E7433F",
+	geodesic:true,
+    strokeOpacity: 1.0,
+    strokeWeight: stroke
+  });
+
+  polyDistance.setMap(map);		
+  map.fitBounds(bounds);*/
+  var bounds = new GLatLngBounds();
+  bounds.extend(new GLatLng( homeMarker.getLatLng().lat(), homeMarker.getLatLng().lng() ));
+  var polyOptions = {geodesic:true};
+  for(var i=0; i<markers.length; i++){
+   points.push( new GLatLng( homeMarker.getLatLng().lat(), homeMarker.getLatLng().lng() ));
+   var point=new GLatLng( markers[i].getLatLng().lat(), markers[i].getLatLng().lng() );
+   points.push(point);
+   bounds.extend(point);
+ }  
+  polyline=new GPolyline( points, "#ff0000", 1, 1 ,polyOptions);
+  map.addOverlay( polyline );
+  map.setZoom(map.getBoundsZoomLevel(bounds));
+  map.setCenter(bounds.getCenter());
+  
+}		
+
+
+function clear() {
+	map.clearOverlays();
+    if (polyline)
+	  map.removeOverlay(polyline);
+	markers = [];
+	points = [];
+}
+
+
+</script>
+</head>
+<!--<body onload='initialize(10,10);'> -->
+<body>
+<div id="map_canvas" style="width:100%; height:100%"></div>
+</body>
+</html>

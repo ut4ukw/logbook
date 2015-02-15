@@ -1,0 +1,16 @@
+library WindowCWEngine;
+
+
+uses
+  ShareMem,
+  uWindowCWEngine in 'uWindowCWEngine.pas',
+  uWindowCWEngineForm in 'uWindowCWEngineForm.pas' {WindowCWEngineForm};
+
+{$R *.res}
+
+exports
+Initialize,
+DeInitialize,
+CoreCommand;
+
+end.

@@ -1,0 +1,80 @@
+object WindowPileUpForm: TWindowPileUpForm
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = 'WindowPileUpForm'
+  ClientHeight = 320
+  ClientWidth = 344
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 16
+  object dbgLog: TDBGridEh
+    Left = 0
+    Top = 0
+    Width = 344
+    Height = 320
+    Align = alClient
+    AllowedOperations = []
+    ColumnDefValues.EndEllipsis = True
+    ColumnDefValues.Title.EndEllipsis = True
+    ColumnDefValues.Title.TitleButton = True
+    DataGrouping.GroupLevels = <>
+    DataSource = dsPileUp
+    DrawMemoText = True
+    EditActions = [geaCopyEh, geaSelectAllEh]
+    Flat = False
+    FooterColor = clWindow
+    FooterFont.Charset = DEFAULT_CHARSET
+    FooterFont.Color = clWindowText
+    FooterFont.Height = -13
+    FooterFont.Name = 'Tahoma'
+    FooterFont.Style = []
+    IndicatorTitle.ShowDropDownSign = True
+    IndicatorTitle.TitleButton = True
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgMultiSelect]
+    OptionsEh = [dghHighlightFocus, dghClearSelection, dghAutoSortMarking, dghIncSearch, dghRowHighlight, dghShowRecNo, dghColumnResize, dghColumnMove, dghHotTrack]
+    ParentShowHint = False
+    ReadOnly = True
+    RowDetailPanel.Color = clBtnFace
+    ShowHint = True
+    SortLocal = True
+    STFilter.InstantApply = True
+    STFilter.Local = True
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -13
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    UseMultiTitle = True
+    Columns = <
+      item
+        EditButtons = <>
+        FieldName = 'CALL'
+        Footers = <>
+        Width = 318
+      end>
+    object RowDetailData: TRowDetailPanelControlEh
+    end
+  end
+  object cdsPileUp: TJvMemoryData
+    FieldDefs = <>
+    Left = 168
+    Top = 168
+    object cdsPileUpCALL: TStringField
+      FieldName = 'CALL'
+      Size = 255
+    end
+  end
+  object dsPileUp: TDataSource
+    DataSet = cdsPileUp
+    Left = 128
+    Top = 168
+  end
+end

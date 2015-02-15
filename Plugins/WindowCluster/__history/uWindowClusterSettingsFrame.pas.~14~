@@ -1,0 +1,28 @@
+unit uWindowClusterSettingsFrame;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, 
+  Dialogs, JvComponentBase, JvFormPlacement, StdCtrls, Spin;
+
+type
+  TWindowClusterSettingsFrame = class(TFrame)
+    FormStorage: TJvFormStorage;
+    WindowCluster_gbTelnet: TGroupBox;
+    WindowCluster_lbClusterURL: TLabel;
+    WindowCluster_lbShowSpotLastMinutes: TLabel;
+    memURL: TMemo;
+    WindowCluster_cbShowTelnetTab: TCheckBox;
+    spShowSpotLastMinutes: TSpinEdit;
+    WindowCluster_gbWWW: TGroupBox;
+  private
+  public
+  end;
+
+implementation
+
+{$R *.dfm}
+
+
+end.

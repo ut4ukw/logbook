@@ -1,0 +1,20 @@
+library WindowLog;
+
+uses
+  ShareMem,
+  uWindowLog in 'uWindowLog.pas',
+  uWindowLogForm in 'uWindowLogForm.pas' {WindowLogForm};
+
+{$R *.res}
+
+
+exports
+Initialize,
+DeInitialize,
+Properties,
+RegisterWindow,
+GetWindow,
+CoreCommand,
+CoreGetData;
+
+end.

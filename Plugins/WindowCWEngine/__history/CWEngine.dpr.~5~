@@ -1,0 +1,14 @@
+program CWEngine;
+
+uses
+  Forms,
+  uCWEngine in 'uCWEngine.pas' {CWEngine};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TCWEngine, CWEngine);
+  Application.Run;
+end.

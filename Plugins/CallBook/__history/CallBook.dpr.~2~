@@ -1,0 +1,15 @@
+library CallBook;
+
+
+uses
+  ShareMem,
+  uCallBook in 'uCallBook.pas';
+
+{$R *.res}
+
+exports
+Initialize,
+DeInitialize,
+CoreCommand;
+
+end.

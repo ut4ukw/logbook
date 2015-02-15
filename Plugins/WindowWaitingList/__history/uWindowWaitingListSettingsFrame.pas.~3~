@@ -1,0 +1,202 @@
+unit uWindowWaitingListSettingsFrame;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, JvComponentBase, JvFormPlacement, StdCtrls, ACS_Classes, ACS_DXAudio,
+  ExtCtrls, Spin, Mask, JvExMask, JvToolEdit,uUtils ,Registry, ComCtrls, ToolWin,
+  DB, JvMemoryDataset, Grids, DBGrids, ImgList, ActnList, Menus;
+
+type
+  TWindowWaitingListSettingsFrame = class(TFrame)
+    FormStorage: TJvFormStorage;
+    WindowQSOEntry_cbShowRightPanel: TCheckBox;
+    procedure WaitingList_aAddMacrosExecute(Sender: TObject);
+    procedure FormStorageSavePlacement(Sender: TObject);
+    procedure FormStorageAfterRestorePlacement(Sender: TObject);
+    procedure WaitingList_aEditMacrosExecute(Sender: TObject);
+    procedure WaitingList_aDeleteMacrosExecute(Sender: TObject);
+    procedure WaitingList_aEditMacrosUpdate(Sender: TObject);
+    procedure WaitingList_aDeleteMacrosUpdate(Sender: TObject);
+
+  private
+   procedure MacrosExecute(Sender:TObject);
+  public
+//   WindowWaitingListForm:TWindowWaitingListForm;
+   procedure Init;
+  end;
+
+implementation
+
+uses uWindowWaitingListForm;
+
+
+{$R *.dfm}
+
+procedure TWindowWaitingListSettingsFrame.MacrosExecute(Sender:TObject);
+begin
+ WindowWaitingListForm.bIsMacros:=True;
+ WindowWaitingListForm.CurrMacros:='CQ CQ';
+ WindowWaitingListForm.thrCWSent.Execute(nil);
+  //
+end;
+
+
+procedure TWindowWaitingListSettingsFrame.WaitingList_aAddMacrosExecute(
+  Sender: TObject);
+var
+ EditWaitingListMacros:TEditWaitingListMacros;
+begin
+  EditWaitingListMacros:=TEditWaitingListMacros.Create(nil);
+  EditWaitingListMacros.Caption:=WaitingList_aAddMacros.Caption;
+  EditWaitingListMacros.leWaitingListMacrosCaption.EditLabel.Caption:=cdsWaitingListMacros.FieldByName('WaitingList_MACROS_CAPTION').DisplayLabel;
+  EditWaitingListMacros.lbWaitingListShortCut.Caption:=cdsWaitingListMacros.FieldByName('WaitingList_MACROS_SHORTCUT').DisplayLabel;
+  EditWaitingListMacros.lbWaitingListMacros.Caption:=cdsWaitingListMacros.FieldByName('WaitingList_MACROS_TEXT').DisplayLabel;
+  EditWaitingListMacros.btnOk.Caption:=WaitingList_btnOk.Caption;
+  EditWaitingListMacros.btnCancel.Caption:=WaitingList_btnCancel.Caption;
+  if EditWaitingListMacros.ShowModal=mrOk then
+   begin
+     cdsWaitingListMacros.Append;
+     cdsWaitingListMacros.FieldByName('WaitingList_MACROS_CAPTION').AsString:=EditWaitingListMacros.leWaitingListMacrosCaption.Text;
+     cdsWaitingListMacros.FieldByName('WaitingList_MACROS_SHORTCUT').AsString:=ShortCutToText(EditWaitingListMacros.edWaitingListMacrosShortCut.HotKey);
+     cdsWaitingListMacros.FieldByName('WaitingList_MACROS_TEXT').AsString:=EditWaitingListMacros.meWaitingListMacrosText.Lines.Text;
+     cdsWaitingListMacros.Post;
+   end;
+  EditWaitingListMacros.Free;
+end;
+
+procedure TWindowWaitingListSettingsFrame.WaitingList_aDeleteMacrosExecute(
+  Sender: TObject);
+begin
+  cdsWaitingListMacros.Delete;
+end;
+
+procedure TWindowWaitingListSettingsFrame.WaitingList_aDeleteMacrosUpdate(
+  Sender: TObject);
+begin
+ WaitingList_aDeleteMacros.Enabled:=not cdsWaitingListMacros.IsEmpty;
+end;
+
+procedure TWindowWaitingListSettingsFrame.WaitingList_aEditMacrosExecute(
+  Sender: TObject);
+var
+ EditWaitingListMacros:TEditWaitingListMacros;
+begin
+  EditWaitingListMacros:=TEditWaitingListMacros.Create(nil);
+  EditWaitingListMacros.Caption:=WaitingList_aAddMacros.Caption;
+  EditWaitingListMacros.leWaitingListMacrosCaption.EditLabel.Caption:=cdsWaitingListMacros.FieldByName('WaitingList_MACROS_CAPTION').DisplayLabel;
+  EditWaitingListMacros.lbWaitingListShortCut.Caption:=cdsWaitingListMacros.FieldByName('WaitingList_MACROS_SHORTCUT').DisplayLabel;
+  EditWaitingListMacros.lbWaitingListMacros.Caption:=cdsWaitingListMacros.FieldByName('WaitingList_MACROS_TEXT').DisplayLabel;
+  EditWaitingListMacros.btnOk.Caption:=WaitingList_btnOk.Caption;
+  EditWaitingListMacros.btnCancel.Caption:=WaitingList_btnCancel.Caption;
+
+  EditWaitingListMacros.leWaitingListMacrosCaption.Text:=cdsWaitingListMacros.FieldByName('WaitingList_MACROS_CAPTION').AsString;
+  EditWaitingListMacros.edWaitingListMacrosShortCut.HotKey:=TextToShortCut(cdsWaitingListMacros.FieldByName('WaitingList_MACROS_SHORTCUT').AsString);
+  EditWaitingListMacros.meWaitingListMacrosText.Lines.Text:=cdsWaitingListMacros.FieldByName('WaitingList_MACROS_TEXT').AsString;
+  if EditWaitingListMacros.ShowModal=mrOk then
+   begin
+     cdsWaitingListMacros.Edit;
+     cdsWaitingListMacros.FieldByName('WaitingList_MACROS_CAPTION').AsString:=EditWaitingListMacros.leWaitingListMacrosCaption.Text;
+     cdsWaitingListMacros.FieldByName('WaitingList_MACROS_SHORTCUT').AsString:=ShortCutToText(EditWaitingListMacros.edWaitingListMacrosShortCut.HotKey);
+     cdsWaitingListMacros.FieldByName('WaitingList_MACROS_TEXT').AsString:=EditWaitingListMacros.meWaitingListMacrosText.Lines.Text;
+     cdsWaitingListMacros.Post;
+   end;
+  EditWaitingListMacros.Free;
+end;
+
+procedure TWindowWaitingListSettingsFrame.WaitingList_aEditMacrosUpdate(
+  Sender: TObject);
+begin
+ WaitingList_aEditMacros.Enabled:=not cdsWaitingListMacros.IsEmpty;
+end;
+
+procedure TWindowWaitingListSettingsFrame.FormStorageAfterRestorePlacement(
+  Sender: TObject);
+var
+ slWaitingListMacros:TStringList;
+ slWaitingListMacrosLine:TStringList;
+ i:integer;
+ Action:TAction;
+begin
+cdsWaitingListMacros.DisableControls;
+cdsWaitingListMacros.Open;
+cdsWaitingListMacros.EmptyTable;
+slWaitingListMacros:=TStringList.Create;
+slWaitingListMacrosLine:=TStringList.Create;
+slWaitingListMacrosLine.Delimiter:='|';
+slWaitingListMacrosLine.StrictDelimiter:=True;
+try
+ FormStorage.AppStorage.ReadStringList('WaitingList\Macros',slWaitingListMacros);
+ for i:=0 to slWaitingListMacros.Count - 1 do
+  begin
+     slWaitingListMacrosLine.DelimitedText:=slWaitingListMacros.Strings[i];
+  {   Action:=TAction.Create(Self);
+     Action.Name:='WaitingListMacros'+IntToStr(alWaitingListMacros.ActionCount+1);
+     Action.Caption:=slWaitingListMacrosLine.Strings[0];
+     Action.ShortCut:=TextToShortCut(slWaitingListMacrosLine.Strings[1]);
+     Action.OnExecute:=MacrosExecute;
+     Action.Tag:=-1;
+     Action.ActionList:=alWaitingListMacros;   }
+
+     cdsWaitingListMacros.Append;
+     cdsWaitingListMacros.FieldByName('WaitingList_MACROS_CAPTION').AsString:=slWaitingListMacrosLine.Strings[0];
+     cdsWaitingListMacros.FieldByName('WaitingList_MACROS_SHORTCUT').AsString:=slWaitingListMacrosLine.Strings[1];
+     cdsWaitingListMacros.FieldByName('WaitingList_MACROS_TEXT').AsString:=slWaitingListMacrosLine.Strings[2];
+     cdsWaitingListMacros.Post;
+  end;
+finally
+ cdsWaitingListMacros.First;
+ cdsWaitingListMacros.EnableControls;
+ slWaitingListMacrosLine.Free;
+ slWaitingListMacros.Free;
+end;
+end;
+
+procedure TWindowWaitingListSettingsFrame.FormStorageSavePlacement(
+  Sender: TObject);
+var
+ slWaitingList:TStringList;
+begin
+ slWaitingList:=TStringList.Create;
+ slWaitingList.StrictDelimiter:=true;
+ cdsWaitingListMacros.DisableControls;
+ try
+  cdsWaitingListMacros.First;
+  while not cdsWaitingListMacros.Eof do
+   begin
+    slWaitingList.Add(cdsWaitingListMacros.FieldByName('WaitingList_MACROS_CAPTION').asString+'|'+cdsWaitingListMacros.FieldByName('WaitingList_MACROS_SHORTCUT').asString+'|'+cdsWaitingListMacros.FieldByName('WaitingList_MACROS_TEXT').asString);
+    cdsWaitingListMacros.Next;
+   end;
+   FormStorage.AppStorage.WriteStringList('WaitingList\Macros',slWaitingList);
+ finally
+  cdsWaitingListMacros.EnableControls;
+  slWaitingList.Free;
+ end;
+end;
+
+procedure TWindowWaitingListSettingsFrame.Init;
+var
+  reg: TRegistry;
+  st: Tstrings;
+  i: Integer;
+begin
+  reg := TRegistry.Create;
+  try
+    reg.RootKey := HKEY_LOCAL_MACHINE;
+    reg.OpenKey('hardware\devicemap\serialcomm', False);
+    st := TstringList.Create;
+    try
+      reg.GetValueNames(st);
+      for i := 0 to st.Count - 1 do
+        cbComPort.Items.Add(reg.Readstring(st.strings[i]));
+    finally
+      st.Free;
+    end;
+    reg.CloseKey;
+  finally
+    reg.Free;
+  end;
+end;
+
+end.

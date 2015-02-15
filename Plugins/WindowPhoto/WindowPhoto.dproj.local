@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2010.10.30 21:05:11.850.dproj,C:\Users\Vlad\Documents\RAD Studio\Projects\Project14.dproj=C:\Users\Vlad\Documents\RAD Studio\Projects\ut4ukw\LogBook\Plugins\WindowPhoto\WindowPhoto.dproj</Transaction>
+    <Transaction>2010.10.30 21:05:37.344.pas,C:\Users\Vlad\Documents\RAD Studio\Projects\ut4ukw\LogBook\Plugins\WindowPhoto\Unit1.pas=C:\Users\Vlad\Documents\RAD Studio\Projects\ut4ukw\LogBook\Plugins\WindowPhoto\uWindowPhoto.pas</Transaction>
+    <Transaction>2010.10.30 21:06:19.768.pas,C:\Users\Vlad\Documents\RAD Studio\Projects\ut4ukw\LogBook\Plugins\WindowPhoto\Unit1.pas=C:\Users\Vlad\Documents\RAD Studio\Projects\ut4ukw\LogBook\Plugins\WindowPhoto\uWindowPhotoForm.pas</Transaction>
+    <Transaction>2010.10.30 21:06:19.768.dfm,C:\Users\Vlad\Documents\RAD Studio\Projects\ut4ukw\LogBook\Plugins\WindowPhoto\Unit1.dfm=C:\Users\Vlad\Documents\RAD Studio\Projects\ut4ukw\LogBook\Plugins\WindowPhoto\uWindowPhotoForm.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -1,0 +1,18 @@
+library WindowLastContacts;
+
+uses
+  ShareMem,
+  ExceptionLog,
+  uWindowLastContacts in 'uWindowLastContacts.pas',
+  uWindowLastContactsForm in 'uWindowLastContactsForm.pas' {WindowLastContactsForm};
+
+{$R *.res}
+
+exports
+Initialize,
+DeInitialize,
+RegisterWindow,
+GetWindow,
+CoreCommand;
+
+end.

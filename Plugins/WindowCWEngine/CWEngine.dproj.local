@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2011.06.19 22:54:53.763.pas,C:\Users\Vlad\Documents\RAD Studio\Projects\Unit6.pas=C:\Users\Vlad\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\WindowCWEngine\uCWEngine.pas</Transaction>
+    <Transaction>2011.06.19 22:54:53.763.dfm,C:\Users\Vlad\Documents\RAD Studio\Projects\Unit6.dfm=C:\Users\Vlad\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\WindowCWEngine\uCWEngine.dfm</Transaction>
+    <Transaction>2011.06.19 22:54:57.720.dproj,C:\Users\Vlad\Documents\RAD Studio\Projects\Project5.dproj=C:\Users\Vlad\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\WindowCWEngine\CWEngine.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

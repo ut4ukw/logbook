@@ -1,0 +1,31 @@
+unit uWindowPileUpForm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  JvThread, ShellApi, JvExControls, StdCtrls, uWindowPluginForm, Mask, DBCtrls,
+  LabeledControls, ExtCtrls, DBGridEhGrouping, DB, JvMemoryDataset, GridsEh,
+  DBGridEh, ActnList;
+
+type
+  TWindowPileUpForm = class(TWindowPluginForm)
+    dbgLog: TDBGridEh;
+    cdsPileUp: TJvMemoryData;
+    dsPileUp: TDataSource;
+    cdsPileUpCALL: TStringField;
+    alPileUp: TActionList;
+  private
+  public
+  end;
+
+var
+  WindowPileUpForm: TWindowPileUpForm;
+
+implementation
+
+uses uWindowPileUp;
+{$R *.dfm}
+
+
+end.

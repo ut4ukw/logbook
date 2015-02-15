@@ -1,0 +1,57 @@
+unit uEditCWEngineMacros;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, JvExExtCtrls, JvExtComponent, JvFooter, Mask,
+  JvExMask, JvToolEdit, ComCtrls, JvExComCtrls, JvHotKey, DBCtrls,
+  LabeledControls;
+
+type
+  TEditCWEngineMacros = class(TForm)
+    JvFooter1: TJvFooter;
+    btnOk: TButton;
+    btnCancel: TButton;
+    leCWEngineMacrosCaption: TLabeledEdit;
+    lbShortCut: TLabel;
+    edCWEngineMacrosShortCut: TJvHotKey;
+    leCWEngineMacrosText: TLabeledDBMemo;
+    procedure leCWEngineMacrosCaptionChange(Sender: TObject);
+    procedure cbTypeCWEngineMacrosClick(Sender: TObject);
+    procedure feCWEngineMacrosChange(Sender: TObject);
+  private
+  public
+    procedure CheckEnabled;
+  end;
+
+var
+  EditCWEngineMacros: TEditCWEngineMacros;
+
+implementation
+
+{$R *.dfm}
+
+procedure TEditCWEngineMacros.leCWEngineMacrosCaptionChange(Sender: TObject);
+begin
+ CheckEnabled;
+end;
+
+procedure TEditCWEngineMacros.cbTypeCWEngineMacrosClick(Sender: TObject);
+begin
+ CheckEnabled;
+end;
+
+procedure TEditCWEngineMacros.CheckEnabled;
+begin
+ btnOk.Enabled:=(Length(Trim(leCWEngineMacrosName.Text))>0) and (cbTypeCWEngineMacros.ItemIndex<>-1) and (Trim(feCWEngineMacros.FileName)<>'');
+end;
+
+
+
+procedure TEditCWEngineMacros.feCWEngineMacrosChange(Sender: TObject);
+begin
+ CheckEnabled;
+end;
+
+end.

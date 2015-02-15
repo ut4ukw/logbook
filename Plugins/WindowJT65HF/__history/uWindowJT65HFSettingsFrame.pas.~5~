@@ -1,0 +1,32 @@
+unit uWindowJT65HFSettingsFrame;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, JvComponentBase, JvFormPlacement, StdCtrls, ACS_Classes, ACS_DXAudio,
+  ExtCtrls, Spin, Mask, JvExMask, JvToolEdit,uUtils ;
+
+type
+  TWindowJT65HFSettingsFrame = class(TFrame)
+    FormStorage: TJvFormStorage;
+    WindowJT65HF_cbSetNextCall: TCheckBox;
+    WindowJT65HF_lbCsvFiles: TLabel;
+    WindowJT65HF_deCsvFiles: TJvDirectoryEdit;
+    WindowJT65HF_spTimeShowHstory: TSpinEdit;
+    Label1: TLabel;
+    CheckBox1: TCheckBox;
+  private
+  public
+  end;
+
+implementation
+
+uses uWindowJT65HFForm;
+
+
+{$R *.dfm}
+
+
+
+end.

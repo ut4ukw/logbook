@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2010.12.28 17:43:37.036.pas,C:\Users\vlad_mel.CARAVAN\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\WindowSoundRecorder\Unit1.pas=C:\Users\vlad_mel.CARAVAN\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\WindowSoundRecorder\uWindowSoundRecorderSettingsFrame.pas</Transaction>
+    <Transaction>2010.12.28 17:43:37.036.dfm,C:\Users\vlad_mel.CARAVAN\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\WindowSoundRecorder\Unit1.dfm=C:\Users\vlad_mel.CARAVAN\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\WindowSoundRecorder\uWindowSoundRecorderSettingsFrame.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

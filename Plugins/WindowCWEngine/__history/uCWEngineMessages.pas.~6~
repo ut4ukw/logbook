@@ -1,0 +1,16 @@
+unit uCWEngineMessages;
+
+
+interface
+uses Messages;
+
+const
+CW_OPENPORT = WM_USER + 100;
+CW_CLOSEPORT = WM_USER + 101;
+CW_SETSPEED = WM_USER + 102;
+CW_COMPORTCONFIG = WM_USER + 103;
+
+
+implementation
+
+end.

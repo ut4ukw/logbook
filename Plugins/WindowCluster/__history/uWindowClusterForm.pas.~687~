@@ -1,0 +1,1275 @@
+unit uWindowClusterForm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ComCtrls, JvExComCtrls, JvComCtrls, ToolWin, ExtCtrls, Grids,
+  DBGrids, JvExDBGrids, JvDBGrid, DB, KDaoTable, ActnList, ImgList, StdCtrls,
+  IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdTelnet,
+  JvComponentBase, JvFormPlacement, JvStrUtils, uPluginHeaders,
+  DateUtils, Math, uWindowPluginForm, JvMemoryDataset, JvCsvData, uUtils,
+  DBGridEhGrouping, GridsEh, DBGridEh, EhLibMemData, IDGlobal, JvThread,
+  KDaoDataBase, JvExControls;
+
+type
+  TBandMode = record
+    BandMHZ: real;
+    ModeName: string;
+  end;
+
+  TWindowClusterForm = class(TWindowPluginForm)
+    qryBandGrid: TKADaoTable;
+    alCluster: TActionList;
+    ilCluster: TImageList;
+    aClusterTelnetConnect: TAction;
+    pgCluster: TPageControl;
+    tsClusterTelnet: TTabSheet;
+    pgClusterTelnetBands: TJvPageControl;
+    tsClusterTelnetBandsAll: TTabSheet;
+    cdsClusterTelnet: TJvMemoryData;
+    cdsClusterTelnetCLUSTER_SPOTTER: TStringField;
+    cdsClusterTelnetCLUSTER_TIME: TTimeField;
+    cdsClusterTelnetCLUSTER_BAND: TFloatField;
+    cdsClusterTelnetCLUSTER_FREQ: TFloatField;
+    cdsClusterTelnetCLUSTER_CALL: TStringField;
+    cdsClusterTelnetCLUSTER_COMMENT: TStringField;
+    cdsClusterTelnetCLUSTER_MODE: TStringField;
+    cdsClusterTelnetCLUSTER_DATE: TDateTimeField;
+    dsClusterTelnet: TDataSource;
+    qryBands: TKADaoTable;
+    aClusterTelnetClear: TAction;
+    qryModes: TKADaoTable;
+    aClusterTelnetFilter: TAction;
+    tsClusterWWW: TTabSheet;
+    pnlToolBarTelnet: TPanel;
+    tbLogMain: TToolBar;
+    tbClusterTelnetConnect: TToolButton;
+    ToolButton2: TToolButton;
+    ToolButton3: TToolButton;
+    tbClusterTelnetFilter: TToolButton;
+    Panel10: TPanel;
+    cbClusterTelnetUrl: TComboBox;
+    Panel1: TPanel;
+    cbClusterTelnetModes: TComboBox;
+    pcClusterTelnet: TPageControl;
+    tsClusterTelnetBand: TTabSheet;
+    tsClusterTelnetTelnet: TTabSheet;
+    memTelnet: TMemo;
+    FormStorage: TJvFormStorage;
+    pnlToolBarWWW: TPanel;
+    ToolBar1: TToolBar;
+    ToolButton1: TToolButton;
+    ToolButton4: TToolButton;
+    ToolButton5: TToolButton;
+    tbClusterWWWFilter: TToolButton;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    cbClusterWWWModes: TComboBox;
+    pgClusterWWWBands: TJvPageControl;
+    tsClusterWWWBandsAll: TTabSheet;
+    cdsClusterWWW: TJvMemoryData;
+    StringField1: TStringField;
+    TimeField1: TTimeField;
+    FloatField1: TFloatField;
+    FloatField2: TFloatField;
+    StringField2: TStringField;
+    StringField3: TStringField;
+    StringField4: TStringField;
+    DateTimeField1: TDateTimeField;
+    dsClusterWWW: TDataSource;
+    cdsBandGrid: TJvMemoryData;
+    qryBandGridBANDGRID_ID: TAutoIncField;
+    qryBandGridBANDGRID_BAND_MHZ: TFloatField;
+    qryBandGridBANDGRID_MODE_NAME: TStringField;
+    qryBandGridBANDGRID_FREQ_BEGIN: TFloatField;
+    qryBandGridBANDGRID_FREQ_END: TFloatField;
+    cdsBandGridBANDGRID_ID: TAutoIncField;
+    cdsBandGridBANDGRID_BAND_MHZ: TFloatField;
+    cdsBandGridBANDGRID_MODE_NAME: TStringField;
+    cdsBandGridBANDGRID_FREQ_BEGIN: TFloatField;
+    cdsBandGridBANDGRID_FREQ_END: TFloatField;
+    aClusterWWWClear: TAction;
+    aClusterWWWFilter: TAction;
+    aClusterWWWDownload: TAction;
+    timClusterWWW: TTimer;
+    Telnet: TIdTelnet;
+    FormStorageOnExit: TJvFormStorage;
+    dbgClusterWWW: TDBGridEh;
+    dbgClusterTelnet: TDBGridEh;
+    thrWWW: TJvThread;
+    pnlMainToolBar: TPanel;
+    qryDXCC1: TKADaoTable;
+    cdsClusterWWWCLUSTER_COLOR: TStringField;
+    cdsClusterTelnetCLUSTER_COLOR: TStringField;
+    pnlClusterWWW: TPanel;
+    pnlLoading: TPanel;
+    thrTelnet: TJvThread;
+    aClusterCallToQSOEntry: TAction;
+    procedure aClusterTelnetConnectExecute(Sender: TObject);
+    procedure TelnetConnected(Sender: TObject);
+    procedure pgClusterTelnetBandsChange(Sender: TObject);
+    procedure aClusterTelnetClearExecute(Sender: TObject);
+    procedure dbgClusterTelnetTitleBtnClick(Sender: TObject; ACol: Integer; Field: TField);
+    procedure dbgClusterTelnetDblClick(Sender: TObject);
+    procedure cbClusterTelnetModesChange(Sender: TObject);
+    procedure aClusterTelnetFilterExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure pgClusterWWWBandsChange(Sender: TObject);
+    procedure aClusterWWWClearExecute(Sender: TObject);
+    procedure aClusterWWWFilterExecute(Sender: TObject);
+    procedure cbClusterWWWModesChange(Sender: TObject);
+    procedure tbClusterWWWFilterClick(Sender: TObject);
+    procedure aClusterWWWDownloadExecute(Sender: TObject);
+    procedure TelnetDisconnected(Sender: TObject);
+    procedure dbgClusterWWWTitleBtnClick(Sender: TObject; ACol: Integer; Field: TField);
+    procedure dbgClusterWWWDblClick(Sender: TObject);
+    procedure timClusterWWWTimer(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure TelnetDataAvailable(Sender: TIdTelnet; const Buffer: string);
+    procedure thrWWWExecute(Sender: TObject; Params: Pointer);
+    procedure pgClusterChange(Sender: TObject);
+    procedure FormStorageOnExitAfterRestorePlacement(Sender: TObject);
+    procedure memTelnetKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure dbgClusterWWWGetCellParams(Sender: TObject; Column: TColumnEh; AFont: TFont; var Background: TColor; State: TGridDrawState);
+    procedure thrDXCCExecute(Sender: TObject; Params: Pointer);
+    procedure dbgClusterTelnetGetCellParams(Sender: TObject; Column: TColumnEh; AFont: TFont; var Background: TColor; State: TGridDrawState);
+    procedure thrWWWFinish(Sender: TObject);
+    procedure thrTelnetExecute(Sender: TObject; Params: Pointer);
+    procedure FormActivate(Sender: TObject);
+    procedure aClusterCallToQSOEntryExecute(Sender: TObject);
+  private
+    Separator: string;
+    StationId: Integer;
+    bTelnetConnected: boolean;
+    DXCCSQL: string;
+    procedure Connect;
+    procedure Disconnect;
+    procedure BuildBandTabs;
+    procedure PostRecord(sStr: string);
+    procedure SetTelnetFilter;
+    procedure SetWWWFilter;
+    procedure LoadWWW;
+    function GetBandModeByFreq(freq: real): TBandMode;
+    procedure SendName;
+    procedure CheckDXCC(Call: string);
+  public
+    StationCall: string;
+    TelnetBuffer: string;
+    procedure InitData;
+    procedure SaveGrid;
+    procedure OptionsChanged;
+    procedure StationChanged(lParam: variant);
+    procedure BandChanged(lParam: variant);
+    procedure ModeChanged(lParam: variant);
+    procedure Load;
+  end;
+
+var
+  WindowClusterForm: TWindowClusterForm;
+
+implementation
+
+uses uWindowCluster;
+{$R *.dfm}
+
+procedure TWindowClusterForm.Connect;
+var
+  sUrl: string;
+  iPosDelimeter, iPosPort: Integer;
+  slMemUrlLine: TStringList;
+  sHost, sPort: string;
+
+begin
+  // PostRecord('DX de LU7XWC:28340000000.0LU7XWC');
+
+  Screen.Cursor := crHourGlass;
+
+  slMemUrlLine := TStringList.Create;
+  slMemUrlLine.QuoteChar := '"';
+  slMemUrlLine.Delimiter := ',';
+  slMemUrlLine.StrictDelimiter := True;
+  try
+    slMemUrlLine.DelimitedText := WindowClusterSettingsFrame.memURL.Lines.Strings[cbClusterTelnetUrl.ItemIndex];
+    if (slMemUrlLine.Count < 3) then
+    begin
+      MessageBox(Application.Handle, PWideChar('Error parsing URL '), PWideChar('Error'), MB_OK or MB_ICONERROR);
+      tbClusterTelnetConnect.Down := False;
+      Screen.Cursor := crDefault;
+      bTelnetConnected := False;
+      exit;
+    end
+    else
+    begin
+      sHost := slMemUrlLine.Strings[1];
+      sPort := slMemUrlLine.Strings[2];
+    end;
+  finally
+    slMemUrlLine.Free;
+  end;
+
+  { sUrl := WindowClusterSettingsFrame.memURL.Lines.Strings[cbClusterTelnetUrl.ItemIndex];
+
+    iPosDelimeter := Pos('|', sUrl);
+    iPosPort := Pos(':', sUrl);
+    if (iPosDelimeter = 0) then
+    begin
+    MessageBox(Application.Handle, PWideChar('Error parsing URL '), PWideChar('Error'), MB_OK or MB_ICONERROR);
+    tbClusterTelnetConnect.Down := False;
+    exit;
+    end; }
+  try
+    Telnet.Host := sHost;
+    Telnet.Port := StrToInt(sPort);
+    { if iPosPort > 0 then
+      begin
+      Telnet.Host := sHost;
+      Telnet.Port := sPort;
+      end
+      else
+      Telnet.Host := Copy(sUrl, iPosDelimeter + 1, Length(sUrl) - iPosDelimeter); }
+    if Telnet.Connected then
+      Telnet.Disconnect();
+    // Telnet.DisconnectNotifyPeer;
+
+    Telnet.Connect;
+    bTelnetConnected := True;
+    tbClusterTelnetConnect.Down := True;
+    Screen.Cursor := crDefault;
+  except
+    on E: Exception do
+    begin
+      Screen.Cursor := crDefault;
+      MessageBox(Application.Handle, PWideChar(E.Message), PWideChar('Error'), MB_OK or MB_ICONERROR);
+      bTelnetConnected := False;
+      tbClusterTelnetConnect.Down := False;
+    end;
+  end;
+end;
+
+procedure TWindowClusterForm.Disconnect;
+begin
+  // Telnet.DisconnectNotifyPeer;
+  Telnet.Disconnect();
+
+  aClusterTelnetConnect.ImageIndex := 4;
+  bTelnetConnected := False;
+  tbClusterTelnetConnect.Down := False;
+end;
+
+procedure TWindowClusterForm.FormActivate(Sender: TObject);
+begin
+  if not Self.Visible then
+    exit;
+  if pgCluster.ActivePage = tsClusterWWW then
+    if dbgClusterWWW.CanFocus then
+      dbgClusterWWW.SetFocus;
+  if (pgCluster.ActivePage = tsClusterTelnet) and (pcClusterTelnet.ActivePage = tsClusterTelnetBand) then
+    if dbgClusterTelnet.CanFocus then
+      dbgClusterTelnet.SetFocus;
+end;
+
+procedure TWindowClusterForm.FormCreate(Sender: TObject);
+var
+  Decimal: PChar;
+begin
+end;
+
+procedure TWindowClusterForm.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  i: Integer;
+begin
+  { for i:=0 to alCluster.ActionCount-1 do
+    begin
+    TAction(alCluster.Actions[i]).ShortCut=Self.IsShortCut()
+    end; }
+end;
+
+procedure TWindowClusterForm.FormStorageOnExitAfterRestorePlacement(Sender: TObject);
+begin
+  pnlToolBarWWW.Visible := pgCluster.ActivePage = tsClusterWWW;
+  pnlToolBarTelnet.Visible := pgCluster.ActivePage = tsClusterTelnet;
+end;
+
+procedure TWindowClusterForm.aClusterCallToQSOEntryExecute(Sender: TObject);
+begin
+  if pgCluster.ActivePage = tsClusterWWW then
+      dbgClusterWWW.OnDblClick(Self);
+  if (pgCluster.ActivePage = tsClusterTelnet) and (pcClusterTelnet.ActivePage = tsClusterTelnetBand) then
+      dbgClusterTelnet.OnDblClick(Self);
+end;
+
+procedure TWindowClusterForm.aClusterTelnetClearExecute(Sender: TObject);
+begin
+  cdsClusterTelnet.EmptyTable;
+  memTelnet.Clear;
+end;
+
+procedure TWindowClusterForm.aClusterTelnetConnectExecute(Sender: TObject);
+begin
+  if not bTelnetConnected then
+    Connect
+  else
+    Disconnect;
+end;
+
+procedure TWindowClusterForm.aClusterTelnetFilterExecute(Sender: TObject);
+begin
+  SetTelnetFilter;
+end;
+
+procedure TWindowClusterForm.aClusterWWWClearExecute(Sender: TObject);
+begin
+  cdsClusterWWW.DisableControls;
+  cdsClusterWWW.EmptyTable;
+  cdsClusterWWW.EnableControls;
+
+  { dbgClusterWWW.SortedField:='';
+    dbgClusterWWW.SortMarker:=smNone; }
+end;
+
+procedure TWindowClusterForm.aClusterWWWDownloadExecute(Sender: TObject);
+begin
+  if pnlLoading.Visible then exit;
+
+  pnlLoading.Visible := True;
+  Application.ProcessMessages;
+  thrWWW.Execute(nil);
+end;
+
+procedure TWindowClusterForm.aClusterWWWFilterExecute(Sender: TObject);
+begin
+  SetWWWFilter;
+end;
+
+procedure TWindowClusterForm.BuildBandTabs;
+var
+  ts, ts1: TTabSheet;
+begin
+  qryBands.Close;
+  while pgClusterTelnetBands.PageCount > 1 do
+    pgClusterTelnetBands.Pages[1].Free;
+  while pgClusterWWWBands.PageCount > 1 do
+    pgClusterWWWBands.Pages[1].Free;
+
+  qryBands.Open;
+  while not qryBands.Eof do
+  begin
+    ts := TTabSheet.Create(Self);
+    ts.Caption := FormatFloat('0.##', qryBands.FieldByName('BAND_MHZ').asFloat);
+    ts.Tag := -1;
+    ts.PageControl := pgClusterTelnetBands;
+
+    ts1 := TTabSheet.Create(Self);
+    ts1.Caption := FormatFloat('0.##', qryBands.FieldByName('BAND_MHZ').asFloat);
+    ts1.Tag := -1;
+    ts1.PageControl := pgClusterWWWBands;
+    qryBands.Next;
+  end;
+
+  cbClusterTelnetModes.Items.Clear;
+  qryModes.Close;
+  qryModes.Open;
+  while not qryModes.Eof do
+  begin
+    cbClusterTelnetModes.Items.Add(qryModes.FieldByName('MODE_NAME').AsString);
+    cbClusterWWWModes.Items.Add(qryModes.FieldByName('MODE_NAME').AsString);
+    qryModes.Next;
+  end;
+
+  pgClusterTelnetBands.ActivePageIndex := 0;
+  pgClusterWWWBands.ActivePageIndex := 0;
+  // pgCluster.ActivePageIndex := 0;
+end;
+
+procedure TWindowClusterForm.cbClusterTelnetModesChange(Sender: TObject);
+begin
+  SetTelnetFilter;
+end;
+
+procedure TWindowClusterForm.cbClusterWWWModesChange(Sender: TObject);
+begin
+  SetWWWFilter;
+end;
+
+procedure TWindowClusterForm.InitData;
+var
+  i: Integer;
+  iPos: Integer;
+  iOldIndex: Integer;
+  Decimal: PChar;
+  slMemUrl: TStringList;
+  slMemUrlLine: TStringList;
+begin
+  Decimal := StrAlloc(255);
+  GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_SDECIMAL, Decimal, 255);
+  Separator := Decimal;
+
+  cdsBandGrid.EmptyTable;
+  qryBandGrid.Open;
+  cdsBandGrid.LoadFromDataSet(qryBandGrid, qryBandGrid.RecordCount, lmAppend);
+  qryBandGrid.Close;
+
+  cdsClusterTelnet.EmptyTable;
+  cdsClusterWWW.EmptyTable;
+  BuildBandTabs;
+  cbClusterTelnetModes.ItemIndex := cbClusterTelnetModes.Items.IndexOf(lMode);
+  cbClusterWWWModes.ItemIndex := cbClusterWWWModes.Items.IndexOf(lMode);
+  iOldIndex := cbClusterTelnetUrl.ItemIndex;
+
+  cbClusterTelnetUrl.Items.Clear;
+
+  slMemUrl := TStringList.Create;
+  slMemUrlLine := TStringList.Create;
+  slMemUrlLine.QuoteChar := '"';
+  slMemUrlLine.Delimiter := ',';
+  slMemUrlLine.StrictDelimiter := True;
+  try
+    slMemUrl.Text := WindowClusterSettingsFrame.memURL.Lines.Text;
+    for i := 0 to slMemUrl.Count - 1 do
+    begin
+      slMemUrlLine.DelimitedText := slMemUrl.Strings[i];
+      cbClusterTelnetUrl.Items.Add(slMemUrlLine.Strings[0]);
+    end;
+  finally
+    slMemUrlLine.Free;
+    slMemUrl.Free;
+  end;
+
+  { for i := 0 to WindowClusterSettingsFrame.memURL.Lines.Count - 1 do
+    begin
+    iPos := Pos('|', WindowClusterSettingsFrame.memURL.Lines.Strings[i]);
+    if iPos > 0 then
+    cbClusterTelnetUrl.Items.Add(Copy(WindowClusterSettingsFrame.memURL.Lines.Strings[i], 1, iPos - 1));
+    end; }
+
+  cbClusterTelnetUrl.ItemIndex := iOldIndex;
+  dbgClusterTelnet.DefaultApplySorting;
+  timClusterWWW.Interval := WindowClusterSettingsFrame.spAutoLoadMinute.Value * 1000 * 60;
+  tsClusterTelnetTelnet.TabVisible := WindowClusterSettingsFrame.WindowCluster_cbShowTelnetTab.Checked;
+
+end;
+
+procedure TWindowClusterForm.dbgClusterTelnetDblClick(Sender: TObject);
+var
+  lParam, wParam: variant;
+begin
+  if ldsLogEdit.DataSet.State in [dsInsert] then
+  begin
+{    wParam := 0;
+    ldsLogEdit.DataSet.FieldByName('LOG_CALL').AsString := cdsClusterTelnet.FieldByName('CLUSTER_CALL').AsString;
+    Application.ProcessMessages;
+    lParam := cdsClusterTelnet.FieldByName('CLUSTER_MODE').AsString;
+    lDllCommand(DC_MODE_CHANGED, Self, lParam, wParam);
+    lParam := cdsClusterTelnet.FieldByName('CLUSTER_BAND').asFloat;
+    lDllCommand(DC_BAND_CHANGED, Self, lParam, wParam);}
+
+    lParam := cdsClusterTelnet.FieldByName('CLUSTER_FREQ').asFloat * 1000;
+    wParam := cdsClusterTelnet.FieldByName('CLUSTER_MODE').AsString;
+    lDllCommand(DC_SET_RADIO_TO_SPOT, Self, lParam, wParam);
+
+    wParam := 0;
+    ldsLogEdit.DataSet.FieldByName('LOG_CALL').AsString := cdsClusterTelnet.FieldByName('CLUSTER_CALL').AsString;
+    Application.ProcessMessages;
+    lParam := cdsClusterTelnet.FieldByName('CLUSTER_MODE').AsString;
+    lDllCommand(DC_MODE_CHANGED, Self, lParam, wParam);
+    lParam := cdsClusterTelnet.FieldByName('CLUSTER_BAND').asFloat;
+    wParam := cdsClusterTelnet.FieldByName('CLUSTER_FREQ').asFloat * 1000;
+    lDllCommand(DC_BAND_CHANGED, Self, lParam, wParam);
+    lParam := 0;
+    wParam := 0;
+    lDllCommand(DC_CALL_INFO, Self, lParam, wParam);
+
+
+  end;
+end;
+
+procedure TWindowClusterForm.dbgClusterTelnetGetCellParams(Sender: TObject; Column: TColumnEh; AFont: TFont; var Background: TColor; State: TGridDrawState);
+begin
+  if (TDBGridEh(Sender).DataSource.DataSet.FieldValues['CLUSTER_COLOR'] = 'R') then
+    AFont.Color := 3947775
+  else if (TDBGridEh(Sender).DataSource.DataSet.FieldValues['CLUSTER_COLOR'] = 'B') then
+    AFont.Color := 16747546
+  else if (TDBGridEh(Sender).DataSource.DataSet.FieldValues['CLUSTER_COLOR'] = 'M') then
+    AFont.Color := 40704;
+end;
+
+procedure TWindowClusterForm.dbgClusterTelnetTitleBtnClick(Sender: TObject; ACol: Integer; Field: TField);
+begin
+  if TJvDBGrid(Sender).Columns[ACol].FieldName = 'CLUSTER_COMMENT' then
+    exit;
+  TJvDBGrid(Sender).SortedField := TJvDBGrid(Sender).Columns[ACol].FieldName;
+  if (TJvDBGrid(Sender).SortMarker = smNone) or (TJvDBGrid(Sender).SortMarker = smDown) then
+  begin
+    cdsClusterTelnet.SortOnFields(TJvDBGrid(Sender).Columns[ACol].FieldName, False, False);
+    TJvDBGrid(Sender).SortMarker := smUp;
+  end
+  else
+  begin
+    cdsClusterTelnet.SortOnFields(TJvDBGrid(Sender).Columns[ACol].FieldName, False, True);
+    TJvDBGrid(Sender).SortMarker := smDown;
+  end;
+end;
+
+procedure TWindowClusterForm.dbgClusterWWWDblClick(Sender: TObject);
+var
+  lParam, wParam: variant;
+begin
+  if ldsLogEdit.DataSet.State in [dsInsert] then
+  begin
+    lParam := cdsClusterWWW.FieldByName('CLUSTER_FREQ').asFloat * 1000;
+    wParam := cdsClusterWWW.FieldByName('CLUSTER_MODE').AsString;
+    lDllCommand(DC_SET_RADIO_TO_SPOT, Self, lParam, wParam);
+
+    wParam := 0;
+    ldsLogEdit.DataSet.FieldByName('LOG_CALL').AsString := cdsClusterWWW.FieldByName('CLUSTER_CALL').AsString;
+    Application.ProcessMessages;
+    lParam := cdsClusterWWW.FieldByName('CLUSTER_MODE').AsString;
+    lDllCommand(DC_MODE_CHANGED, Self, lParam, wParam);
+    lParam := cdsClusterWWW.FieldByName('CLUSTER_BAND').asFloat;
+    wParam := cdsClusterWWW.FieldByName('CLUSTER_FREQ').asFloat * 1000;
+    lDllCommand(DC_BAND_CHANGED, Self, lParam, wParam);
+    lParam := 0;
+    wParam := 0;
+    lDllCommand(DC_CALL_INFO, Self, lParam, wParam);
+  end;
+
+  { if ldsLogEdit.DataSet.State in [dsInsert,dsEdit] then
+    begin
+    wParam:=0;
+    ldsLogEdit.DataSet.FieldByName('LOG_CALL').AsString:=cdsClusterWWW.FieldByName('CLUSTER_CALL').AsString;
+    lParam:=cdsClusterWWW.FieldByName('CLUSTER_MODE').AsString;
+    lDllCommand(DC_MODE_CHANGED,Self,lParam,wParam);
+    lParam:=cdsClusterWWW.FieldByName('CLUSTER_BAND').AsFloat;
+    wParam:=cdsClusterWWW.FieldByName('CLUSTER_FREQ').AsFloat*1000;
+    lDllCommand(DC_BAND_CHANGED,Self,lParam,wParam);
+    lParam:=0;
+    wParam:=0;
+    lDllCommand(DC_CALL_INFO,Self,lParam,wParam);
+    end; }
+end;
+
+procedure TWindowClusterForm.dbgClusterWWWGetCellParams(Sender: TObject; Column: TColumnEh; AFont: TFont; var Background: TColor; State: TGridDrawState);
+begin
+  inherited;
+  if (TDBGridEh(Sender).DataSource.DataSet.FieldValues['CLUSTER_COLOR'] = 'R') then
+    AFont.Color := 3947775
+  else if (TDBGridEh(Sender).DataSource.DataSet.FieldValues['CLUSTER_COLOR'] = 'B') then
+    AFont.Color := 16747546
+  else if (TDBGridEh(Sender).DataSource.DataSet.FieldValues['CLUSTER_COLOR'] = 'M') then
+    AFont.Color := 40704;
+
+end;
+
+procedure TWindowClusterForm.dbgClusterWWWTitleBtnClick(Sender: TObject; ACol: Integer; Field: TField);
+begin
+  if TJvDBGrid(Sender).Columns[ACol].FieldName = 'CLUSTER_COMMENT' then
+    exit;
+  TJvDBGrid(Sender).SortedField := TJvDBGrid(Sender).Columns[ACol].FieldName;
+  if (TJvDBGrid(Sender).SortMarker = smNone) or (TJvDBGrid(Sender).SortMarker = smDown) then
+  begin
+    cdsClusterWWW.SortOnFields(TJvDBGrid(Sender).Columns[ACol].FieldName, False, False);
+    TJvDBGrid(Sender).SortMarker := smUp;
+  end
+  else
+  begin
+    cdsClusterWWW.SortOnFields(TJvDBGrid(Sender).Columns[ACol].FieldName, False, True);
+    TJvDBGrid(Sender).SortMarker := smDown;
+  end;
+end;
+
+procedure TWindowClusterForm.SetTelnetFilter;
+begin
+  cdsClusterTelnet.Filter := '';
+  cdsClusterTelnet.Filtered := False;
+  if (pgClusterTelnetBands.ActivePageIndex > 0) or (tbClusterTelnetFilter.Down) then
+  begin
+    if pgClusterTelnetBands.ActivePageIndex > 0 then
+      cdsClusterTelnet.Filter := '(CLUSTER_BAND=' + QuotedStr(pgClusterTelnetBands.ActivePage.Caption) + ')';
+    if tbClusterTelnetFilter.Down then
+      if cdsClusterTelnet.Filter = '' then
+        cdsClusterTelnet.Filter := '(CLUSTER_MODE=' + QuotedStr(cbClusterTelnetModes.Text) + ')'
+      else
+        cdsClusterTelnet.Filter := cdsClusterTelnet.Filter + ' AND (CLUSTER_MODE=' + QuotedStr(cbClusterTelnetModes.Text) + ')';
+    cdsClusterTelnet.Filtered := True;
+  end;
+end;
+
+procedure TWindowClusterForm.SetWWWFilter;
+begin
+  cdsClusterWWW.Filter := '';
+  cdsClusterWWW.Filtered := False;
+  if (pgClusterWWWBands.ActivePageIndex > 0) or (tbClusterWWWFilter.Down) then
+  begin
+    if pgClusterWWWBands.ActivePageIndex > 0 then
+      cdsClusterWWW.Filter := '(CLUSTER_BAND=' + QuotedStr(pgClusterWWWBands.ActivePage.Caption) + ')';
+    if tbClusterWWWFilter.Down then
+      if cdsClusterWWW.Filter = '' then
+        cdsClusterWWW.Filter := '(CLUSTER_MODE=' + QuotedStr(cbClusterWWWModes.Text) + ')'
+      else
+        cdsClusterWWW.Filter := cdsClusterWWW.Filter + ' AND (CLUSTER_MODE=' + QuotedStr(cbClusterWWWModes.Text) + ')';
+    cdsClusterWWW.Filtered := True;
+  end;
+end;
+
+procedure TWindowClusterForm.tbClusterWWWFilterClick(Sender: TObject);
+begin
+  SetWWWFilter;
+end;
+
+procedure TWindowClusterForm.pgClusterChange(Sender: TObject);
+begin
+  inherited;
+  pnlToolBarWWW.Visible := pgCluster.ActivePage = tsClusterWWW;
+  pnlToolBarTelnet.Visible := pgCluster.ActivePage = tsClusterTelnet;
+end;
+
+procedure TWindowClusterForm.pgClusterTelnetBandsChange(Sender: TObject);
+begin
+  SetTelnetFilter;
+end;
+
+procedure TWindowClusterForm.pgClusterWWWBandsChange(Sender: TObject);
+begin
+  SetWWWFilter;
+end;
+
+procedure TWindowClusterForm.TelnetConnected(Sender: TObject);
+var
+  i: Integer;
+begin
+  aClusterTelnetConnect.ImageIndex := 0;
+  for i := 1 to Length(StationCall) do
+    Telnet.SendCh(StationCall[i]);
+  Telnet.SendCh(#13);
+end;
+
+procedure TWindowClusterForm.PostRecord(sStr: string);
+var
+  sOrigStr, sSpotter, sFreq, sCall, sDescription, sTime: string;
+  iYear, iMonth, iDay: Word;
+  rFreq: real;
+  BandMode: TBandMode;
+  DAODatabase: TKADaoDatabase;
+  qryDXCC: TKADaoTable;
+  lParam, wParam: variant;
+begin
+  sOrigStr := sStr;
+
+  if Pos('Please enter your QTH', sStr) > 0 then
+  begin
+    Telnet.SendCh(#13);
+  end;
+
+  if Pos('Is this correct?', sStr) > 0 then
+  begin
+    Telnet.SendCh('Y');
+    Telnet.SendCh(#13);
+  end;
+
+  if Pos('Please enter your name', sStr) > 0 then
+    SendName;
+
+  if Copy(sStr, 1, 2) = 'DX' then
+  begin
+    Copy2SymbDel(sStr, ' ');
+    Copy2SymbDel(sStr, ' ');
+    sSpotter := Copy2SymbDel(sStr, ' ');
+    if sSpotter[Length(sSpotter)] = ':' then
+      Delete(sSpotter, Length(sSpotter), 1);
+
+    sStr := Trim(sStr);
+    sFreq := StringReplace(Copy2SymbDel(sStr, ' '), '.', Separator, [rfReplaceAll, rfIgnoreCase]);
+
+    sStr := Trim(sStr);
+    sCall := Copy2SymbDel(sStr, ' ');
+
+    if (Copy(sStr, 5, 3) <> 'Z') then
+    begin
+      if (Length(sStr) > 10) then
+      begin
+        sDescription := Copy(sStr, 1, 31);
+        Delete(sStr, 1, 31);
+      end;
+    end;
+
+    sStr := Trim(sStr);
+    sTime := Copy(sStr, 1, 4);
+    if sTime = '' then
+      exit;
+
+    Insert(':', sTime, 3);
+
+    rFreq := StrToFloat(sFreq);
+    BandMode := (GetBandModeByFreq(rFreq));
+    if BandMode.BandMHZ = -1 then
+      exit;
+
+    DAODatabase := TKADaoDatabase.Create(nil);
+    qryDXCC := TKADaoTable.Create(nil);
+    qryDXCC.Database := DAODatabase;
+    DAODatabase.Database := ExtractFilePath(Application.ExeName) + 'Data\Database\LogBook.mdb';
+    DAODatabase.Open;
+    qryDXCC.SQL.Text := DXCCSQL;
+
+    cdsClusterTelnet.EnableControls;
+    cdsClusterTelnet.DisableControls;
+    { dbgClusterTelnet.Enabled:=False; }
+
+    try
+      try
+        cdsClusterTelnet.Filter := 'CLUSTER_DATE<' + QuotedStr(FormatDateTime('dd.mm.yyyy hh:nn:ss', IncMinute(Now, WindowClusterSettingsFrame.spShowSpotLastMinutes.Value * -1)));
+        cdsClusterTelnet.Filtered := True;
+        while not cdsClusterTelnet.Eof do
+          cdsClusterTelnet.Delete;
+        cdsClusterTelnet.Filtered := False;
+
+        DecodeDate(Date, iYear, iMonth, iDay);
+        cdsClusterTelnet.Insert;
+        // cdsClusterTelnet.Append;
+        cdsClusterTelnet.FieldByName('CLUSTER_SPOTTER').Value := sSpotter;
+        cdsClusterTelnet.FieldByName('CLUSTER_CALL').Value := sCall;
+        cdsClusterTelnet.FieldByName('CLUSTER_COMMENT').Value := sDescription;
+        cdsClusterTelnet.FieldByName('CLUSTER_TIME').Value := StrToTime(sTime);
+        cdsClusterTelnet.FieldByName('CLUSTER_FREQ').Value := StrToFloat(sFreq);
+        cdsClusterTelnet.FieldByName('CLUSTER_BAND').Value := FloatToStr(BandMode.BandMHZ);
+        cdsClusterTelnet.FieldByName('CLUSTER_MODE').Value := BandMode.ModeName;
+        cdsClusterTelnet.FieldByName('CLUSTER_DATE').Value := Now;
+
+        qryDXCC.Close;
+        lParam := cdsClusterTelnet.FieldByName('CLUSTER_CALL').AsString;
+        lDllCommand(DC_GET_CALL_DXCC_ID, Self, lParam, wParam);
+        qryDXCC.Params.ParamByName('LOG_DXCC').asInteger := StrToInt(wParam);
+        qryDXCC.Open;
+        if qryDXCC.IsEmpty then
+        begin
+          cdsClusterTelnet.FieldByName('CLUSTER_COLOR').AsString := 'R';
+        end
+        else
+        begin
+          qryDXCC.First;
+          if not qryDXCC.Locate('LOG_BAND_MHZ', cdsClusterTelnet.FieldByName('CLUSTER_BAND').Value, []) then
+          begin
+            cdsClusterTelnet.FieldByName('CLUSTER_COLOR').AsString := 'B';
+          end
+          else
+          begin
+            qryDXCC.First;
+            if not qryDXCC.Locate('LOG_MODE', cdsClusterTelnet.FieldByName('CLUSTER_MODE').Value, []) then
+            begin
+              cdsClusterTelnet.FieldByName('CLUSTER_COLOR').AsString := 'M';
+            end;
+          end;
+        end;
+
+        cdsClusterTelnet.Post;
+        SetTelnetFilter;
+      except
+        // on E: Exception do
+        // MessageBox(Application.Handle, PWideChar(E.Message), PWideChar('Error'), MB_OK or MB_ICONERROR);
+      end;
+    finally
+      DAODatabase.Close;
+      DAODatabase.Free;
+      qryDXCC.Free;
+      if not(csDestroying in cdsClusterTelnet.ComponentState) then
+        cdsClusterTelnet.EnableControls;
+      // dbgClusterTelnet.Refresh;
+      { dbgClusterTelnet.Enabled:=True; }
+      { if WindowClusterSettingsFrame.WindowCluster_cbColorizeGrid.Checked then
+        thrDXCC.Execute(PChar(sCall)); }
+    end;
+  end;
+end;
+
+procedure TWindowClusterForm.TelnetDataAvailable(Sender: TIdTelnet; const Buffer: string);
+begin
+  if Trim(Buffer) = '' then
+    exit;
+  { if tsClusterTelnet.TabVisible then
+    begin }
+  memTelnet.Lines.Add(Buffer);
+  SendMessage(memTelnet.Handle, EM_LINESCROLL, 0, memTelnet.Lines.Count - 1);
+  { end; }
+  TelnetBuffer := Buffer;
+  thrTelnet.Execute(nil);
+  // PostRecord(Buffer);
+end;
+
+procedure TWindowClusterForm.TelnetDisconnected(Sender: TObject);
+begin
+  bTelnetConnected := False;
+  if not fDeinitialize then
+  begin
+    aClusterTelnetConnect.ImageIndex := 4;
+    tbClusterTelnetConnect.Down := False;
+  end;
+end;
+
+procedure TWindowClusterForm.thrDXCCExecute(Sender: TObject; Params: Pointer);
+begin
+  if Params = nil then
+    CheckDXCC('')
+  else
+    CheckDXCC(StrPas(PChar(Params)));
+end;
+
+procedure TWindowClusterForm.thrTelnetExecute(Sender: TObject; Params: Pointer);
+begin
+  PostRecord(TelnetBuffer);
+end;
+
+procedure TWindowClusterForm.thrWWWExecute(Sender: TObject; Params: Pointer);
+begin
+  dsClusterWWW.DataSet.DisableControls;
+//  dsClusterWWW.DataSet:=nil;
+  LoadWWW;
+end;
+
+procedure TWindowClusterForm.thrWWWFinish(Sender: TObject);
+var
+ lParam, wParam:variant;
+begin
+  pnlLoading.Visible := False;
+//  dsClusterWWW.DataSet:=cdsClusterWWW;
+  dsClusterWWW.DataSet.EnableControls;
+
+  lParam:=Integer(Pointer(cdsClusterWWW));
+  lDllCommand(DC_CLUSTER_LOADED_WWW, Self, lParam, wParam);
+end;
+
+procedure TWindowClusterForm.timClusterWWWTimer(Sender: TObject);
+begin
+  if pnlLoading.Visible then exit;
+  pnlLoading.Visible := True;
+  Application.ProcessMessages;
+  thrWWW.Execute(nil);
+end;
+
+procedure TWindowClusterForm.LoadWWW;
+var
+  Stream: TMemoryStream;
+  sList, sLine: TStringList;
+  i: Integer;
+  BandMode: TBandMode;
+  rFreq: real;
+  lParam, wParam: variant;
+  DAODatabase: TKADaoDatabase;
+  qryDXCC: TKADaoTable;
+begin
+  timClusterWWW.Enabled := False;
+  aClusterWWWClear.OnExecute(Self);
+  Stream := TMemoryStream.Create;
+  sList := TStringList.Create;
+  sLine := TStringList.Create;
+  sLine.Delimiter := '^';
+//  cdsClusterWWW.DisableControls;
+
+  dbgClusterWWW.Enabled := False;
+
+  DAODatabase := TKADaoDatabase.Create(nil);
+  qryDXCC := TKADaoTable.Create(nil);
+  qryDXCC.Database := DAODatabase;
+  DAODatabase.Database := ExtractFilePath(Application.ExeName) + 'Data\Database\LogBook.mdb';
+  DAODatabase.Open;
+  qryDXCC.SQL.Text := DXCCSQL;
+
+  try
+    try
+      GetInetFile('http://dxcluster.ham-radio.ch/top_250_all.csv', Stream);
+      Stream.Position := 0;
+//      sList.LoadFromStream(Stream);
+      sList.LoadFromFile('D:\!\cluster.csv');
+      for i := 0 to sList.Count - 1 do
+        if i > 0 then
+        begin
+          sLine.DelimitedText := sList.Strings[i];
+          rFreq := StrToFloat(StringReplace(sLine.Strings[1], '.', Separator, [rfReplaceAll, rfIgnoreCase]));
+          BandMode := (GetBandModeByFreq(rFreq));
+          if BandMode.BandMHZ = -1 then
+            continue;
+          cdsClusterWWW.Insert;
+          cdsClusterWWW.FieldByName('CLUSTER_SPOTTER').Value := sLine.Strings[5];
+          cdsClusterWWW.FieldByName('CLUSTER_CALL').Value := sLine.Strings[0];
+          cdsClusterWWW.FieldByName('CLUSTER_COMMENT').Value := sLine.Strings[6];
+          cdsClusterWWW.FieldByName('CLUSTER_TIME').Value := StrToTime(sLine.Strings[4]);
+          cdsClusterWWW.FieldByName('CLUSTER_FREQ').Value := StrToFloat(StringReplace(sLine.Strings[1], '.', Separator, [rfReplaceAll, rfIgnoreCase]));
+          cdsClusterWWW.FieldByName('CLUSTER_BAND').Value := BandMode.BandMHZ;
+          cdsClusterWWW.FieldByName('CLUSTER_MODE').Value := BandMode.ModeName;
+          cdsClusterWWW.FieldByName('CLUSTER_DATE').Value := Now;
+
+          qryDXCC.Close;
+          lParam := cdsClusterWWW.FieldByName('CLUSTER_CALL').AsString;
+          lDllCommand(DC_GET_CALL_DXCC_ID, Self, lParam, wParam);
+          qryDXCC.Params.ParamByName('LOG_DXCC').asInteger := StrToInt(wParam);
+          qryDXCC.Open;
+          if qryDXCC.IsEmpty then
+          begin
+            cdsClusterWWW.FieldByName('CLUSTER_COLOR').AsString := 'R';
+          end
+          else
+          begin
+            qryDXCC.First;
+            if not qryDXCC.Locate('LOG_BAND_MHZ', cdsClusterWWW.FieldByName('CLUSTER_BAND').Value, []) then
+            begin
+              cdsClusterWWW.FieldByName('CLUSTER_COLOR').AsString := 'B';
+            end
+            else
+            begin
+              qryDXCC.First;
+              if not qryDXCC.Locate('LOG_MODE', cdsClusterWWW.FieldByName('CLUSTER_MODE').Value, []) then
+              begin
+                cdsClusterWWW.FieldByName('CLUSTER_COLOR').AsString := 'M';
+              end;
+            end;
+          end;
+          cdsClusterWWW.Post;
+        end;
+    except
+      on E: Exception do
+        ShowMessage(E.Message);
+    end;
+  finally
+    { if WindowClusterSettingsFrame.WindowCluster_cbColorizeGrid.Checked then
+      thrDXCC.Execute(nil); }
+    // CheckDXCC('');
+    if not(csDestroying in cdsClusterWWW.ComponentState) then
+    begin
+      SetWWWFilter;
+      dbgClusterWWW.DefaultApplySorting;
+      cdsClusterWWW.First;
+    end;
+    Stream.Free;
+    sList.Free;
+    sLine.Free;
+    DAODatabase.Close;
+    DAODatabase.Free;
+    qryDXCC.Free;
+    if not(csDestroying in cdsClusterWWW.ComponentState) then
+    begin
+  //    cdsClusterWWW.EnableControls;
+      dbgClusterWWW.Enabled := True;
+      timClusterWWW.Enabled := timClusterWWW.Interval > 0;
+    end;
+  end;
+
+
+
+end;
+
+procedure TWindowClusterForm.memTelnetKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  Telnet.SendCh(Char(Key));
+end;
+
+function TWindowClusterForm.GetBandModeByFreq(freq: real): TBandMode;
+begin
+  result.BandMHZ := -1;
+  cdsBandGrid.First;
+  while not cdsBandGrid.Eof do
+  begin
+    if (cdsBandGrid.FieldByName('BANDGRID_FREQ_BEGIN').asFloat <= freq / 1000) and (cdsBandGrid.FieldByName('BANDGRID_FREQ_END').asFloat >= freq / 1000) then
+    begin
+      result.BandMHZ := SimpleRoundTo(cdsBandGrid.FieldByName('BANDGRID_BAND_MHZ').asFloat, -3);
+      result.ModeName := cdsBandGrid.FieldByName('BANDGRID_MODE_NAME').AsString;
+      exit;
+    end;
+    cdsBandGrid.Next;
+  end;
+end;
+
+procedure TWindowClusterForm.SaveGrid;
+var
+  S: string;
+  i: Integer;
+begin
+  with dbgClusterWWW.Columns do
+  begin
+    for i := 0 to Count - 1 do
+    begin
+      S := Format('%d,%d,%d,%d,%d,%d,%d,%d,%d', [Items[i].Index, Items[i].Width, Integer(Items[i].Title.SortMarker), Integer(Items[i].Visible), Items[i].Title.SortIndex, Items[i].DropDownRows, Items[i].DropDownWidth, Items[i].InRowLinePos,
+        Items[i].InRowLineHeight]);
+      if S <> '' then
+      begin
+        if ((S[1] = '"') and (S[Length(S)] = '"')) or ((S[1] = '''') and (S[Length(S)] = '''')) then
+          S := '"' + S + '"';
+      end;
+      FormStorage.WriteString('dbgClusterWWW.' + Items[i].FieldName, S);
+    end;
+  end;
+  with dbgClusterTelnet.Columns do
+  begin
+    for i := 0 to Count - 1 do
+    begin
+      S := Format('%d,%d,%d,%d,%d,%d,%d,%d,%d', [Items[i].Index, Items[i].Width, Integer(Items[i].Title.SortMarker), Integer(Items[i].Visible), Items[i].Title.SortIndex, Items[i].DropDownRows, Items[i].DropDownWidth, Items[i].InRowLinePos,
+        Items[i].InRowLineHeight]);
+      if S <> '' then
+      begin
+        if ((S[1] = '"') and (S[Length(S)] = '"')) or ((S[1] = '''') and (S[Length(S)] = '''')) then
+          S := '"' + S + '"';
+      end;
+      FormStorage.WriteString('dbgClusterTelnet.' + Items[i].FieldName, S);
+    end;
+  end;
+end;
+
+procedure TWindowClusterForm.OptionsChanged;
+var
+  OldItemIndex: Integer;
+  i: Integer;
+  iPos: Integer;
+  slMemUrl: TStringList;
+  slMemUrlLine: TStringList;
+begin
+  OldItemIndex := cbClusterTelnetUrl.ItemIndex;
+  cbClusterTelnetUrl.Items.Clear;
+
+  slMemUrl := TStringList.Create;
+  slMemUrlLine := TStringList.Create;
+  slMemUrlLine.QuoteChar := '"';
+  slMemUrlLine.Delimiter := ',';
+  slMemUrlLine.StrictDelimiter := True;
+  try
+    slMemUrl.Text := WindowClusterSettingsFrame.memURL.Lines.Text;
+    for i := 0 to slMemUrl.Count - 1 do
+    begin
+      slMemUrlLine.DelimitedText := slMemUrl.Strings[i];
+      cbClusterTelnetUrl.Items.Add(slMemUrlLine.Strings[0]);
+    end;
+  finally
+    slMemUrlLine.Free;
+    slMemUrl.Free;
+  end;
+
+  { for i := 0 to WindowClusterSettingsFrame.memURL.Lines.Count - 1 do
+    begin
+    iPos := Pos('|', WindowClusterSettingsFrame.memURL.Lines.Strings[i]);
+    if iPos > 0 then
+    cbClusterTelnetUrl.Items.Add(Copy(WindowClusterSettingsFrame.memURL.Lines.Strings[i], 1, iPos - 1));
+    end; }
+  cbClusterTelnetUrl.ItemIndex := OldItemIndex;
+  if WindowClusterSettingsFrame.spAutoLoadMinute.Value>0 then
+    timClusterWWW.Interval := WindowClusterSettingsFrame.spAutoLoadMinute.Value * 1000 * 60;
+  tsClusterTelnetTelnet.TabVisible := WindowClusterSettingsFrame.WindowCluster_cbShowTelnetTab.Checked;
+  StationChanged(StationId);
+end;
+
+procedure TWindowClusterForm.SendName;
+var
+  i: Integer;
+  sName: string;
+begin
+  sName := StationCall;
+  for i := 1 to Length(sName) do
+    Telnet.SendCh(sName[i]);
+  Telnet.SendCh(#13);
+end;
+
+procedure TWindowClusterForm.StationChanged(lParam: variant);
+var
+  qryStations: TKADaoTable;
+  i: Integer;
+  sSQL: string;
+begin
+  StationId := lParam;
+
+  // qryDXCC.Close;
+  if bCheckNewOneForAllBook then
+  begin
+    qryStations := TKADaoTable.Create(nil);
+    i := 0;
+    try
+      qryStations.Database := lDatabase;
+      qryStations.SQL.Text := 'SELECT STATION_ID FROM STATIONS';
+      qryStations.Open;
+      while not qryStations.Eof do
+      begin
+        if i = 0 then
+          sSQL := ' SELECT  LOG_MODE,LOG_BAND_MHZ, LOG_DXCC FROM LOG_' + IntToStr(qryStations.FieldByName('STATION_ID').asInteger)
+        else
+          sSQL := sSQL + ' UNION ALL SELECT  LOG_MODE,LOG_BAND_MHZ, LOG_DXCC FROM LOG_' + IntToStr(qryStations.FieldByName('STATION_ID').asInteger);
+        Inc(i);
+        qryStations.Next;
+      end;
+      // qryDXCC.SQL.Text := 'SELECT LOG_MODE,LOG_BAND_MHZ FROM (' + sSQL + ') WHERE LOG_DXCC=:LOG_DXCC GROUP BY LOG_MODE,LOG_BAND_MHZ';
+      DXCCSQL := 'SELECT LOG_MODE,LOG_BAND_MHZ FROM (' + sSQL + ') WHERE LOG_DXCC=:LOG_DXCC GROUP BY LOG_MODE,LOG_BAND_MHZ';
+    finally
+      qryStations.Free;
+    end;
+  end
+  else
+    // qryDXCC.SQL.Text := 'SELECT LOG_MODE,LOG_BAND_MHZ FROM LOG_' + IntToStr(StationId) + ' WHERE LOG_DXCC=:LOG_DXCC GROUP BY LOG_MODE,LOG_BAND_MHZ';
+    DXCCSQL := 'SELECT LOG_MODE,LOG_BAND_MHZ FROM LOG_' + IntToStr(StationId) + ' WHERE LOG_DXCC=:LOG_DXCC GROUP BY LOG_MODE,LOG_BAND_MHZ';
+end;
+
+procedure TWindowClusterForm.CheckDXCC(Call: string);
+var
+  lParam, wParam: variant;
+  BookMarkWWW, BookMarkTelnet: TBookMark;
+  DAODatabase: TKADaoDatabase;
+  qryDXCC: TKADaoTable;
+
+begin
+
+  DAODatabase := TKADaoDatabase.Create(nil);
+  qryDXCC := TKADaoTable.Create(nil);
+  qryDXCC.Database := DAODatabase;
+  DAODatabase.Database := ExtractFilePath(Application.ExeName) + 'Data\Database\LogBook.mdb';
+  DAODatabase.Open;
+  qryDXCC.SQL.Text := DXCCSQL;
+
+  if Call = '' then
+  begin
+
+    cdsClusterWWW.DisableControls;
+    dbgClusterWWW.Enabled := False;
+    cdsClusterTelnet.DisableControls;
+    dbgClusterTelnet.Enabled := False;
+
+    BookMarkWWW := cdsClusterWWW.BookMark;
+    BookMarkTelnet := cdsClusterTelnet.BookMark;
+
+    cdsClusterWWW.First;
+    while not cdsClusterWWW.Eof do
+    begin
+      qryDXCC.Close;
+      lParam := cdsClusterWWW.FieldByName('CLUSTER_CALL').AsString;
+      lDllCommand(DC_GET_CALL_DXCC_ID, Self, lParam, wParam);
+      qryDXCC.Params.ParamByName('LOG_DXCC').asInteger := StrToInt(wParam);
+      qryDXCC.Open;
+      cdsClusterWWW.Edit;
+      if qryDXCC.IsEmpty then
+      begin
+        cdsClusterWWW.FieldByName('CLUSTER_COLOR').AsString := 'R';
+      end
+      else
+      begin
+        qryDXCC.First;
+        if not qryDXCC.Locate('LOG_BAND_MHZ', lBand, []) then
+        begin
+          cdsClusterWWW.FieldByName('CLUSTER_COLOR').AsString := 'B';
+        end
+        else
+        begin
+          qryDXCC.First;
+          if not qryDXCC.Locate('LOG_MODE', lMode, []) then
+          begin
+            cdsClusterWWW.FieldByName('CLUSTER_COLOR').AsString := 'M';
+          end;
+        end;
+        cdsClusterWWW.Post;
+      end;
+      qryDXCC.Close;
+      cdsClusterWWW.Next;
+    end;
+    if cdsClusterWWW.BookmarkValid(BookMarkWWW) then
+    begin
+      cdsClusterWWW.GotoBookmark(BookMarkWWW);
+      cdsClusterWWW.FreeBookmark(BookMarkWWW);
+    end;
+    dbgClusterWWW.Enabled := True;
+    dbgClusterWWW.Repaint;
+
+    cdsClusterTelnet.First;
+    while not cdsClusterTelnet.Eof do
+    begin
+      qryDXCC.Close;
+      lParam := cdsClusterTelnet.FieldByName('CLUSTER_CALL').AsString;
+      lDllCommand(DC_GET_CALL_DXCC_ID, Self, lParam, wParam);
+      qryDXCC.Params.ParamByName('LOG_DXCC').asInteger := StrToInt(wParam);
+      qryDXCC.Open;
+      cdsClusterTelnet.Edit;
+      if qryDXCC.IsEmpty then
+      begin
+        cdsClusterTelnet.FieldByName('CLUSTER_COLOR').AsString := 'R';
+      end
+      else
+      begin
+        qryDXCC.First;
+        if not qryDXCC.Locate('LOG_BAND_MHZ', lBand, []) then
+        begin
+          cdsClusterTelnet.FieldByName('CLUSTER_COLOR').AsString := 'B';
+        end
+        else
+        begin
+          qryDXCC.First;
+          if not qryDXCC.Locate('LOG_MODE', lMode, []) then
+          begin
+            cdsClusterTelnet.FieldByName('CLUSTER_COLOR').AsString := 'M';
+          end;
+        end;
+        cdsClusterTelnet.Post;
+      end;
+      qryDXCC.Close;
+      cdsClusterTelnet.Next;
+    end;
+    if cdsClusterTelnet.BookmarkValid(BookMarkTelnet) then
+    begin
+      cdsClusterTelnet.GotoBookmark(BookMarkTelnet);
+      cdsClusterTelnet.FreeBookmark(BookMarkTelnet);
+    end;
+    dbgClusterTelnet.Enabled := True;
+    dbgClusterTelnet.Repaint;
+
+    { pnlClusterWWWWait.Visible:=False;
+      pnlClusterWWW.Visible:=True; }
+    cdsClusterWWW.EnableControls;
+  end
+  else
+  begin
+    qryDXCC.Close;
+    lParam := Call;
+    lDllCommand(DC_GET_CALL_DXCC_ID, Self, lParam, wParam);
+    qryDXCC.Params.ParamByName('LOG_DXCC').asInteger := StrToInt(wParam);
+    qryDXCC.Open;
+    cdsClusterTelnet.Edit;
+    if qryDXCC.IsEmpty then
+    begin
+      cdsClusterTelnet.FieldByName('CLUSTER_COLOR').AsString := 'R';
+    end
+    else
+    begin
+      qryDXCC.First;
+      if not qryDXCC.Locate('LOG_BAND_MHZ', lBand, []) then
+      begin
+        cdsClusterTelnet.FieldByName('CLUSTER_COLOR').AsString := 'B';
+      end
+      else
+      begin
+        qryDXCC.First;
+        if not qryDXCC.Locate('LOG_MODE', lMode, []) then
+        begin
+          cdsClusterTelnet.FieldByName('CLUSTER_COLOR').AsString := 'M';
+        end;
+      end;
+      cdsClusterTelnet.Post;
+    end;
+    qryDXCC.Close;
+  end;
+
+  DAODatabase.Close;
+  DAODatabase.Free;
+  qryDXCC.Free;
+
+end;
+
+procedure TWindowClusterForm.BandChanged(lParam: variant);
+begin
+end;
+
+procedure TWindowClusterForm.ModeChanged(lParam: variant);
+begin
+  cbClusterTelnetModes.ItemIndex := cbClusterTelnetModes.Items.IndexOf(lMode);
+  SetTelnetFilter;
+end;
+
+procedure TWindowClusterForm.Load;
+begin
+
+if WindowClusterSettingsFrame.WindowCluster_cbAutoLoadWWW.Checked then
+  aClusterWWWDownloadExecute(aClusterWWWDownload);
+  if tbClusterTelnetConnect.Down then
+    aClusterTelnetConnectExecute(Self);
+end;
+
+end.

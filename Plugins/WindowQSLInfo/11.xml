@@ -1,0 +1,7 @@
+<?xml version="1.0" standalone="yes"?>  <DATAPACKET Version="2.0"><METADATA><FIELDS><FIELD attrname="QSL_SENT_TYPE_ID" fieldtype="string" WIDTH="1"/><FIELD attrname="QSL_SENT_TYPE_NAME" fieldtype="string" WIDTH="254"/></FIELDS><PARAMS/></METADATA><ROWDATA>
+  <ROW RowState="4" QSL_SENT_TYPE_ID="Y" QSL_SENT_TYPE_NAME="Да" Status="Pending"/>
+  <ROW RowState="4" QSL_SENT_TYPE_ID="N" QSL_SENT_TYPE_NAME="Нет" Status="Pending"/>  
+  <ROW RowState="4" QSL_SENT_TYPE_ID="R" QSL_SENT_TYPE_NAME="Запрос" Status="Pending"/>    
+  <ROW RowState="4" QSL_SENT_TYPE_ID="I" QSL_SENT_TYPE_NAME="Игнорировать" Status="Pending"/>    
+  <ROW RowState="4" QSL_SENT_TYPE_ID="V" QSL_SENT_TYPE_NAME="Подтверждена" Status="Pending"/>    
+</ROWDATA></DATAPACKET>

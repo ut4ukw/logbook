@@ -1,0 +1,52 @@
+unit uWindowClusterSettingsFrame;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, 
+  Dialogs, JvComponentBase, JvFormPlacement, StdCtrls, Spin, JvExStdCtrls,
+  JvMemo, ComCtrls;
+
+type
+  TWindowClusterSettingsFrame = class(TFrame)
+    FormStorage: TJvFormStorage;
+    WindowCluster_gbTelnet: TGroupBox;
+    WindowCluster_lbClusterURL: TLabel;
+    WindowCluster_lbShowSpotLastMinutes: TLabel;
+    WindowCluster_cbShowTelnetTab: TCheckBox;
+    spShowSpotLastMinutes: TSpinEdit;
+    WindowCluster_gbWWW: TGroupBox;
+    WindowCluster_lbAutoLoadMinutes: TLabel;
+    spAutoLoadMinute: TSpinEdit;
+    WindowCluster_gbGeneral: TGroupBox;
+    WindowCluster_cbColorizeGrid: TCheckBox;
+    memURL: TRichEdit;
+    procedure FormStorageAfterRestorePlacement(Sender: TObject);
+  private
+  public
+  end;
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TWindowClusterSettingsFrame.FormStorageAfterRestorePlacement(
+  Sender: TObject);
+var
+ slNodelist:TStringList;
+
+begin
+{slNodelist:=TStringList.Create;
+try
+slNodelist.LoadFromFile(
+);
+finally
+slNodelist.Free;}
+RichEdit1.Lines.LoadFromFile(ExtractFilePath(Application.ExeName)+'nodelist.dat');
+//memUrl.Lines.LoadFromFile(ExtractFilePath(Application.ExeName)+'nodelist.dat');
+
+
+end;
+
+end.

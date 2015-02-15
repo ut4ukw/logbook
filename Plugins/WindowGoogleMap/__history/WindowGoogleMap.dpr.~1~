@@ -1,0 +1,18 @@
+library WindowGoogleMap;
+
+
+uses
+  ShareMem,
+  uWindowGoogleMap in 'uWindowGoogleMap.pas',
+  uWindowGoogleMapForm in 'uWindowGoogleMapForm.pas' {WindowGoogleMapForm};
+
+{$R *.res}
+
+exports
+Initialize,
+DeInitialize,
+RegisterWindow,
+GetWindow,
+CoreCommand;
+
+end.

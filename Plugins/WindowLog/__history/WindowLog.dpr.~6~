@@ -1,0 +1,18 @@
+library WindowLog;
+
+uses
+  ShareMem,
+  uWindowLog in 'uWindowLog.pas',
+  uWindowLogForm in 'uWindowLogForm.pas' {WindowLogForm},
+  uEditFilterName in 'uEditFilterName.pas' {EditFilterName};
+
+{$R *.res}
+
+
+exports
+Initialize,
+DeInitialize,
+CoreCommand,
+CoreGetData;
+
+end.

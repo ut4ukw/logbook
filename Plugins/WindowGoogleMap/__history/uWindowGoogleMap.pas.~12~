@@ -1,0 +1,107 @@
+unit uWindowGoogleMap;
+
+interface
+
+uses
+  SysUtils,
+  Forms,
+  uPluginHeaders,
+  JvAppIniStorage,
+  Classes,
+  Windows,
+  Controls,
+  ActnList,
+  DB,
+  Variants,
+  KDaoDatabase,
+  uWindowGoogleMapForm;
+
+function Initialize(App: TApplication; Scr: TScreen; ActionList: TActionList;
+  AppStorage: TJvAppIniFileStorage; ImageList: TImageList; DllCommand: pointer;
+  Database: TKADaoDatabase; dsLogEdit: TDataSource;
+  dsLog: TDataSource): Integer; stdcall;
+function DeInitialize(): Integer; stdcall;
+function RegisterWindow(var WindowName: PChar): Integer; stdcall;
+function GetWindow(handle: THandle): TForm; stdcall;
+function CoreCommand(IdCommand: Integer; Sender: TObject;
+  lParam, wParam: variant): Integer; stdcall;
+
+var
+  WindowGoogleMapForm: TWindowGoogleMapForm;
+  aHandle: THandle;
+  aApplication: TApplication;
+  lAppStorage: TJvAppIniFileStorage;
+  ldsLogEdit: TDataSource;
+  lDatabase: TKADaoDatabase;
+  lDllCommand: TDllCommand;
+  lMode: string;
+  StationId: Integer;
+
+implementation
+
+function Initialize(App: TApplication; Scr: TScreen; ActionList: TActionList;
+  AppStorage: TJvAppIniFileStorage; ImageList: TImageList; DllCommand: pointer;
+  Database: TKADaoDatabase; dsLogEdit: TDataSource;
+  dsLog: TDataSource): Integer; stdcall;
+begin
+  Application := App;
+  ldsLogEdit := dsLogEdit;
+  lDatabase := Database;
+  lAppStorage := AppStorage;
+  @lDllCommand := DllCommand;
+  Result := 1;
+end;
+
+function DeInitialize(): Integer; stdcall;
+begin
+  if Assigned(WindowGoogleMapForm) then
+    WindowGoogleMapForm.Free;
+  Result := 1;
+end;
+
+function RegisterWindow(var WindowName: PChar): Integer; stdcall;
+begin
+  WindowName := PChar('WindowGoogleMap');
+  Result := 1;
+end;
+
+function GetWindow(handle: THandle): TForm; stdcall;
+begin
+  if not Assigned(WindowGoogleMapForm) then
+  begin
+    WindowGoogleMapForm := TWindowGoogleMapForm.Create(Application,ldsLogEdit);
+    WindowGoogleMapForm.qryMap.Database := lDatabase;
+  end;
+  Result := WindowGoogleMapForm;
+end;
+
+function CoreCommand(IdCommand: Integer; Sender: TObject;
+  lParam, wParam: variant): Integer; stdcall;
+begin
+  case IdCommand of
+    CA_CALL_INFO:
+      if Assigned(WindowGoogleMapForm) then
+        WindowGoogleMapForm.CallInfo;
+    CA_CANCEL_QSO:
+      if Assigned(WindowGoogleMapForm) then
+        WindowGoogleMapForm.CancelQSO;
+    CA_NEW_QSO:
+      if Assigned(WindowGoogleMapForm) then
+        WindowGoogleMapForm.CancelQSO;
+    CC_STATION_CHANGED:
+      begin
+        StationId := lParam;
+        if Assigned(WindowGoogleMapForm) then
+          WindowGoogleMapForm.CancelQSO;
+      end;
+    CC_OPTIONS_CHANGED:
+      begin
+        if Assigned(WindowGoogleMapForm) then
+          WindowGoogleMapForm.CancelQSO;
+      end;
+
+  end;
+
+end;
+
+end.

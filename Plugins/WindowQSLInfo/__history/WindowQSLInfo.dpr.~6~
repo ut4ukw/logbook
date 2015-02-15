@@ -1,0 +1,19 @@
+library WindowQSLInfo;
+
+
+uses
+  ShareMem,
+  ExceptionLog,
+  SysUtils,
+  Classes,
+  uWindowQSLInfo in 'uWindowQSLInfo.pas',
+  uWindowQSLInfoForm in 'uWindowQSLInfoForm.pas' {WindowQSLInfoForm};
+
+{$R *.res}
+
+exports
+Initialize,
+DeInitialize,
+CoreCommand;
+
+end.

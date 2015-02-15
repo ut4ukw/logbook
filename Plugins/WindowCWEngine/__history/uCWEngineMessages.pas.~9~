@@ -1,0 +1,17 @@
+unit uCWEngineMessages;
+
+
+interface
+uses Messages;
+
+const
+CW_SETPORT = WM_USER + 100;
+CW_SETSPEED = WM_USER + 101;
+CW_SETCWSIGNAL = WM_USER + 102;
+CW_SETPTTSIGNAL = WM_USER + 103;
+CW_SENDMACROS = WM_USER + 104;
+
+
+implementation
+
+end.

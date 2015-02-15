@@ -1,0 +1,18 @@
+library WindowSoundRecorder;
+
+
+uses
+  ShareMem,
+  uWindowSoundRecorder in 'uWindowSoundRecorder.pas',
+  uWindowSoundRecorderForm in 'uWindowSoundRecorderForm.pas' {WindowSoundRecorderForm};
+
+{$R *.res}
+
+exports
+Initialize,
+DeInitialize,
+RegisterWindow,
+GetWindow,
+CoreCommand;
+
+end.

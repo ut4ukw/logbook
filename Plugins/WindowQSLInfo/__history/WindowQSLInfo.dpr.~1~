@@ -1,0 +1,19 @@
+library WindowQSLInfo;
+
+
+uses
+  ShareMem,
+  SysUtils,
+  Classes,
+  uWindowQSLInfo in 'uWindowQSLInfo.pas';
+
+{$R *.res}
+
+exports
+Initialize,
+DeInitialize,
+RegisterWindow,
+GetWindow,
+CoreCommand;
+
+end.

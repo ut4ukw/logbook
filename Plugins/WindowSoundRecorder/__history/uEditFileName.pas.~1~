@@ -1,0 +1,34 @@
+unit uEditFileName;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, JvExExtCtrls, JvExtComponent, JvFooter;
+
+type
+  TEditFileName = class(TForm)
+    JvFooter1: TJvFooter;
+    btnOk: TButton;
+    btnCancel: TButton;
+    leDesktopName: TLabeledEdit;
+    procedure leDesktopNameChange(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  EditFileName: TEditFileName;
+
+implementation
+
+{$R *.dfm}
+
+procedure TEditFileName.leDesktopNameChange(Sender: TObject);
+begin
+ btnOk.Enabled:=Length(Trim(leDesktopname.Text))>0;
+end;
+
+end.

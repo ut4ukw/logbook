@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2011.11.24 17:48:59.650.pas,C:\Users\melnichenko\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\WindowAwardsStatistics\Unit1.pas=C:\Users\melnichenko\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\WindowAwardsStatistics\uEditAward.pas</Transaction>
+    <Transaction>2011.11.24 17:48:59.650.dfm,C:\Users\melnichenko\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\WindowAwardsStatistics\Unit1.dfm=C:\Users\melnichenko\Documents\RAD Studio\Projects\UT4UKW\LogBook\Plugins\WindowAwardsStatistics\uEditAward.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -1,0 +1,28 @@
+unit uWindowWaitingListSettingsFrame;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, JvComponentBase, JvFormPlacement, StdCtrls, ACS_Classes, ACS_DXAudio,
+  ExtCtrls, Spin, Mask, JvExMask, JvToolEdit,uUtils ;
+
+type
+  TWindowWaitingListSettingsFrame = class(TFrame)
+    FormStorage: TJvFormStorage;
+    WindowQSOEntry_cbShowRightPanel: TCheckBox;
+
+  private
+  public
+  end;
+
+implementation
+
+uses uWindowWaitingListForm;
+
+
+{$R *.dfm}
+
+
+
+end.

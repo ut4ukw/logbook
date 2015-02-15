@@ -1,0 +1,93 @@
+unit uWindowWaitingListForm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  JvThread, ShellApi, JvExControls, StdCtrls, uWindowPluginForm, Mask, DBCtrls,
+  LabeledControls, ExtCtrls, DBGridEhGrouping, DB, JvMemoryDataset, GridsEh,
+  DBGridEh, ActnList, JvComponentBase, JvFormPlacement, uPluginHeaders, Dialogs, Menus;
+
+type
+  TWindowWaitingListForm = class(TWindowPluginForm)
+    dbgWaitingList: TDBGridEh;
+    cdsWaitingList: TJvMemoryData;
+    dsWaitingList: TDataSource;
+    alWaitingList: TActionList;
+    aWaitingListCallAdd: TAction;
+    aWaitingListCallDelete: TAction;
+    cdsWaitingListWAITINGLIST_CALL: TStringField;
+    cdsWaitingListWAITINGLIST_FREQ: TFloatField;
+    FormStorage: TJvFormStorage;
+    alWaitingListItems: TActionList;
+    Action1: TAction;
+    Action2: TAction;
+    procedure aWaitingListCallAddExecute(Sender: TObject);
+    function IsShortCut(var Message: TWMKey): Boolean; override;
+  private
+    procedure SetCall(Sender:TObject);
+  public
+    procedure SaveGrid;
+  end;
+
+var
+  WindowWaitingListForm: TWindowWaitingListForm;
+
+implementation
+
+uses uWindowWaitingList;
+{$R *.dfm}
+
+
+procedure TWindowWaitingListForm.SetCall(Sender:TObject);
+begin
+  ShowMessage('111');
+end;
+
+
+procedure TWindowWaitingListForm.aWaitingListCallAddExecute(Sender: TObject);
+var
+Action : TAction;
+begin
+ if Trim(ldsLogEdit.DataSet.FieldByName('LOG_CALL').AsString)<>'' then
+  begin
+   cdsWaitingList.Append;
+   cdsWaitingList.FieldByName('WAITINGLIST_CALL').asString:=ldsLogEdit.DataSet.FieldByName('LOG_CALL').AsString;
+   cdsWaitingList.FieldByName('WAITINGLIST_FREQ').AsFloat:=ldsLogEdit.DataSet.FieldByName('LOG_FREQ').AsFloat;
+   cdsWaitingList.Post;
+   Action := TAction.Create(Self);
+   Action.OnExecute := SetCall;
+   Action.Tag := -3;
+   Action.ShortCut:=TextToShortCut('Ctrl+F1');
+   Action.ActionList:=alWaitingListItems;
+  end;
+end;
+
+procedure TWindowWaitingListForm.SaveGrid;
+var
+  S: string;
+  I: Integer;
+begin
+  with dbgWaitingList.Columns do
+  begin
+    for I := 0 to Count - 1 do
+    begin
+      S := Format('%d,%d,%d,%d,%d,%d,%d,%d,%d', [Items[I].Index, Items[I].Width, Integer(Items[I].Title.SortMarker), Integer(Items[I].Visible), Items[I].Title.SortIndex, Items[I].DropDownRows, Items[I].DropDownWidth, Items[I].InRowLinePos, Items[I].InRowLineHeight]);
+      if S <> '' then
+      begin
+        if ((S[1] = '"') and (S[Length(S)] = '"')) or ((S[1] = '''') and (S[Length(S)] = '''')) then
+          S := '"' + S + '"';
+      end;
+      FormStorage.WriteString('dbgWaitingList.' + Items[I].FieldName, S);
+    end;
+  end;
+end;
+
+function TWindowWaitingListForm.IsShortCut(var Message: TWMKey): Boolean;
+begin
+  ShowMessage('sss');
+end;
+
+
+
+end.

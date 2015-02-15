@@ -1,0 +1,21 @@
+unit uCWEngineMessages;
+
+
+interface
+uses Messages;
+
+const
+CW_SETPORT = WM_USER + 100;
+CW_SETSPEED = WM_USER + 101;
+CW_SETCWSIGNAL = WM_USER + 102;
+CW_SETPTTSIGNAL = WM_USER + 103;
+CW_SENDSYMBOL = WM_USER + 104;
+CW_CANCEL_SEND = WM_USER + 105;
+CW_EXIT = WM_USER + 106;
+CW_TRANSMIT_START = WM_USER + 107;
+CW_TRANSMIT_COMPLETE = WM_USER + 108;
+
+
+implementation
+
+end.

@@ -1,0 +1,16 @@
+library WindowAwardsStatistics;
+
+
+uses
+  ShareMem,
+  uWindowAwards in 'uWindowAwards.pas',
+  uWindowAwardsForm in 'uWindowAwardsForm.pas' {WindowAwardsForm};
+
+{$R *.res}
+
+exports
+Initialize,
+DeInitialize,
+CoreCommand;
+
+end.

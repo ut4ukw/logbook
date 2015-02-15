@@ -1,0 +1,17 @@
+library WindowGeoData;
+
+uses
+  ShareMem,
+  SysUtils,
+  Classes,
+  uWindowGeoData in 'uWindowGeoData.pas',
+  uWindowGeoDataForm in 'uWindowGeoDataForm.pas' {WindowGeoDataForm};
+
+{$R *.res}
+
+exports
+Initialize,
+DeInitialize,
+CoreCommand;
+
+end.

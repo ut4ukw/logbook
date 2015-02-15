@@ -1,0 +1,26 @@
+unit uWindowPileUpForm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  JvThread, ShellApi, JvExControls, StdCtrls, uWindowPluginForm, Mask, DBCtrls,
+  LabeledControls;
+
+type
+  TWindowPileUpForm = class(TWindowPluginForm)
+    ldeCall: TLabeledDBEdit;
+  private
+  public
+  end;
+
+var
+  WindowPileUpForm: TWindowPileUpForm;
+
+implementation
+
+uses uWindowPileUp;
+{$R *.dfm}
+
+
+end.

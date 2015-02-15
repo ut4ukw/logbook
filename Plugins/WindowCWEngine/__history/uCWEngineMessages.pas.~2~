@@ -1,0 +1,10 @@
+unit uCWEngineMessages;
+
+interface
+
+const
+CW_OPENPORT = WM_USER + 100;
+
+implementation
+
+end.
